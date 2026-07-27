@@ -1,0 +1,60 @@
+{
+    "name": "PlayerInputActions",
+    "maps": [
+        {
+            "name": "Movements",
+            "id": "73498242-822f-4299-a831-73100b7b9017",
+            "actions": [
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "1a878a7b-38cf-43b8-a217-84ecc51949cf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Crouch",
+                    "type": "Button",
+                    "id": "e109c5f1-1197-4ed9-a636-6e5b75f02926",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7f81f5e8-6bf6-4551-87dd-9417827757c4",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "GameControl",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "507a5b55-db3f-45d8-aa34-f5171a3b49c6",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "GameControl",
+                    "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "GameControl",
+            "bindingGroup": "GameControl",
+            "devices": []
+        }
+    ]
+}
