@@ -1,112 +1,147 @@
 using System;
-using System.Linq;
-using Unity.VisualScripting;
+using Sirenix.OdinInspector;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace GameYT
+namespace GameYT.Warmup
 {
-    public class InputManager : Singleton<InputManager>
+    [DisallowMultipleComponent]
+    public sealed class InputManager : MonoBehaviour
     {
-        private PlayerInputActions input;
-        private new void Awake()
+        private const string UpArrowPath = "<Keyboard>/upArrow";
+        private const string DownArrowPath = "<Keyboard>/downArrow";
+        private const string LeftArrowPath = "<Keyboard>/leftArrow";
+        private const string RightArrowPath = "<Keyboard>/rightArrow";
+        private const string PunchPath = "<Keyboard>/j";
+
+        [Title("Runtime Debug")]
+        [ShowInInspector, ReadOnly]
+        public bool IsEnabled => _jumpAction != null && _jumpAction.enabled;
+
+        public event Action<WarmupActionType> ActionTriggered;
+        public event Action<bool> DuckStateChanged;
+
+        public bool IsDuckHeld =>
+            _duckAction != null && _duckAction.IsPressed();
+
+        private InputAction _jumpAction;
+        private InputAction _duckAction;
+        private InputAction _leftAction;
+        private InputAction _rightAction;
+        private InputAction _punchAction;
+
+        private void Awake()
         {
-            input = new PlayerInputActions();
-
-            //JUMP
-            input.Movements.Jump.performed += OnJumpPerformed;
-
-            //CROUCH
-            input.Movements.Crouch.performed += OnCrouchPerformed;
+            CreateActions();
+            Subscribe();
         }
+
         private void OnEnable()
         {
-            input.Movements.Enable();
+            EnableActions();
         }
+
         private void OnDisable()
         {
-            input.Movements.Disable();
-        }
-        private void OnJumpPerformed(InputAction.CallbackContext ctx)
-        {
-            OnJump?.Invoke();
-        }
-        private void OnCrouchPerformed(InputAction.CallbackContext ctx)
-        {
-            OnCrouch?.Invoke();
+            DisableActions();
         }
 
-        private bool Register(ref Action action, Action register)
+        private void OnDestroy()
         {
-            bool registered = action?
-            .GetInvocationList()
-            .Contains
-            (
-                (Action)register
-            )
-            ?? false;
+            Unsubscribe();
+            DisposeActions();
+        }
 
-            if (registered)
+        private void CreateActions()
+        {
+            _jumpAction = new InputAction("Jump", InputActionType.Button, UpArrowPath);
+            _duckAction = new InputAction("Duck", InputActionType.Button, DownArrowPath);
+            _leftAction = new InputAction("Move Left", InputActionType.Button, LeftArrowPath);
+            _rightAction = new InputAction("Move Right", InputActionType.Button, RightArrowPath);
+            _punchAction = new InputAction("Punch", InputActionType.Button, PunchPath);
+        }
+
+        private void Subscribe()
+        {
+            _jumpAction.performed += HandleJump;
+            _duckAction.performed += HandleDuckStarted;
+            _duckAction.canceled += HandleDuckCanceled;
+            _leftAction.performed += HandleLeft;
+            _rightAction.performed += HandleRight;
+            _punchAction.performed += HandlePunch;
+        }
+
+        private void Unsubscribe()
+        {
+            if (_jumpAction == null)
             {
-                return false;
+                return;
             }
 
-            action += register;
-
-            return true;
-        }
-        private bool Unregister(ref Action action, Action unregister)
-        {
-            bool registered = action?
-            .GetInvocationList()
-            .Contains
-            (
-                (Action)unregister
-            )
-            ?? false;
-
-            if (registered)
-            {
-                return false;
-            }
-
-            action -= unregister;
-
-            return true;
-        }
-        private void ClearAction(ref Action action)
-        {
-            action = null;
+            _jumpAction.performed -= HandleJump;
+            _duckAction.performed -= HandleDuckStarted;
+            _duckAction.canceled -= HandleDuckCanceled;
+            _leftAction.performed -= HandleLeft;
+            _rightAction.performed -= HandleRight;
+            _punchAction.performed -= HandlePunch;
         }
 
-        public event Action OnJump;
-        public event Action OnCrouch;
-
-        ///Jump
-        public bool JumpActionRegister(Action action)
+        private void EnableActions()
         {
-            return Register(ref OnJump, action);
-        }
-        public bool JumpActionUnregister(Action action)
-        {
-            return Unregister(ref OnJump, action);
-        }
-        public void ResetJumpActionRegister()
-        {
-            ClearAction(ref OnJump);
+            _jumpAction?.Enable();
+            _duckAction?.Enable();
+            _leftAction?.Enable();
+            _rightAction?.Enable();
+            _punchAction?.Enable();
         }
 
-        ///Crouch
-        public bool CrouchActionRegister(Action action)
+        private void DisableActions()
         {
-            return Register(ref OnCrouch, action);
+            _jumpAction?.Disable();
+            _duckAction?.Disable();
+            _leftAction?.Disable();
+            _rightAction?.Disable();
+            _punchAction?.Disable();
         }
-        public bool CrouchActionUnregister(Action action)
+
+        private void DisposeActions()
         {
-            return Unregister(ref OnCrouch, action);
+            _jumpAction?.Dispose();
+            _duckAction?.Dispose();
+            _leftAction?.Dispose();
+            _rightAction?.Dispose();
+            _punchAction?.Dispose();
         }
-        public void ResetCrouchActionRegister()
+
+        private void HandleJump(InputAction.CallbackContext context)
         {
-            ClearAction(ref OnCrouch);
+            ActionTriggered?.Invoke(WarmupActionType.Jump);
+        }
+
+        private void HandleDuckStarted(InputAction.CallbackContext context)
+        {
+            DuckStateChanged?.Invoke(true);
+            ActionTriggered?.Invoke(WarmupActionType.Duck);
+        }
+
+        private void HandleDuckCanceled(InputAction.CallbackContext context)
+        {
+            DuckStateChanged?.Invoke(false);
+        }
+
+        private void HandleLeft(InputAction.CallbackContext context)
+        {
+            ActionTriggered?.Invoke(WarmupActionType.MoveLeft);
+        }
+
+        private void HandleRight(InputAction.CallbackContext context)
+        {
+            ActionTriggered?.Invoke(WarmupActionType.MoveRight);
+        }
+
+        private void HandlePunch(InputAction.CallbackContext context)
+        {
+            ActionTriggered?.Invoke(WarmupActionType.Punch);
         }
     }
 }

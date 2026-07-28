@@ -1,0 +1,238 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddd855a934a8c5e469caaa32fb98419d, type: 3}
+  m_Name: MonsterForestRunSequence
+  m_EditorClassIdentifier: 
+  duration: 450
+  cues:
+  - StartTime: 1
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 0
+    Label: RUN!
+    SpeedMultiplier: 1.35
+  - StartTime: 3.2
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 3
+    Label: JUMP!
+    SpeedMultiplier: 1.35
+  - StartTime: 5.1
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 5
+    Label: PUNCH!
+    SpeedMultiplier: 1.35
+  - StartTime: 15
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 0
+    Label: RUN!
+    SpeedMultiplier: 0.85
+  - StartTime: 23
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 1
+    Label: LEFT!
+    SpeedMultiplier: 0.85
+  - StartTime: 32
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 2
+    Label: RIGHT!
+    SpeedMultiplier: 0.9
+  - StartTime: 46
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 3
+    Label: JUMP!
+    SpeedMultiplier: 0.95
+  - StartTime: 57
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 4
+    Label: DUCK!
+    SpeedMultiplier: 0.95
+  - StartTime: 69
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 3
+    Label: JUMP!
+    SpeedMultiplier: 1
+  - StartTime: 82
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 1
+    Label: LEFT!
+    SpeedMultiplier: 1
+  - StartTime: 94
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 2
+    Label: RIGHT!
+    SpeedMultiplier: 1
+  - StartTime: 107
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 5
+    Label: PUNCH!
+    SpeedMultiplier: 1
+  - StartTime: 121
+    LeadTime: 1.2
+    ActionWindow: 1.1
+    Action: 6
+    Label: FREEZE!
+    SpeedMultiplier: 0.9
+  - StartTime: 134
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 4
+    Label: DUCK!
+    SpeedMultiplier: 0.9
+  - StartTime: 148
+    LeadTime: 1.2
+    ActionWindow: 1.1
+    Action: 6
+    Label: FREEZE!
+    SpeedMultiplier: 0.95
+  - StartTime: 163
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 2
+    Label: RIGHT!
+    SpeedMultiplier: 1
+  - StartTime: 175
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 1
+    Label: LEFT!
+    SpeedMultiplier: 1
+  - StartTime: 187
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 3
+    Label: JUMP!
+    SpeedMultiplier: 1.05
+  - StartTime: 203
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 0
+    Label: RUN!
+    SpeedMultiplier: 1.25
+  - StartTime: 211
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 4
+    Label: DUCK!
+    SpeedMultiplier: 1.25
+  - StartTime: 220
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 3
+    Label: JUMP!
+    SpeedMultiplier: 1.25
+  - StartTime: 237
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 5
+    Label: PUNCH!
+    SpeedMultiplier: 1
+  - StartTime: 247
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 5
+    Label: PUNCH!
+    SpeedMultiplier: 1
+  - StartTime: 257
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 5
+    Label: PUNCH!
+    SpeedMultiplier: 1.05
+  - StartTime: 275
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 1
+    Label: LEFT!
+    SpeedMultiplier: 1.1
+  - StartTime: 289
+    LeadTime: 1.2
+    ActionWindow: 1.1
+    Action: 6
+    Label: FREEZE!
+    SpeedMultiplier: 1.05
+  - StartTime: 304
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 2
+    Label: RIGHT!
+    SpeedMultiplier: 1.15
+  - StartTime: 321
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 3
+    Label: JUMP!
+    SpeedMultiplier: 1.2
+  - StartTime: 337
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 4
+    Label: DUCK!
+    SpeedMultiplier: 1.2
+  - StartTime: 350
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 5
+    Label: PUNCH!
+    SpeedMultiplier: 1.25
+  - StartTime: 362
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 1
+    Label: LEFT!
+    SpeedMultiplier: 1.3
+  - StartTime: 374
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 3
+    Label: JUMP!
+    SpeedMultiplier: 1.3
+  - StartTime: 386
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 2
+    Label: RIGHT!
+    SpeedMultiplier: 1.35
+  - StartTime: 398
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 4
+    Label: DUCK!
+    SpeedMultiplier: 1.35
+  - StartTime: 409
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 5
+    Label: PUNCH!
+    SpeedMultiplier: 1.4
+  - StartTime: 421
+    LeadTime: 1
+    ActionWindow: 1.1
+    Action: 0
+    Label: RUN!
+    SpeedMultiplier: 0.7
+  - StartTime: 435
+    LeadTime: 1.2
+    ActionWindow: 1.1
+    Action: 6
+    Label: BREATHE
+    SpeedMultiplier: 0.35
