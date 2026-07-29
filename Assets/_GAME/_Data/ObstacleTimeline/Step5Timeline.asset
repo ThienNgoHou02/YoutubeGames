@@ -1,0 +1,192 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be89b65ae57605a4c95f62a01a30fee6, type: 3}
+  m_Name: Step5Timeline
+  m_EditorClassIdentifier: 
+  stepNumber: 5
+  displayName: Step 5 - Full Combo & Boss Wall
+  duration: 68
+  runSpeedSource: 0
+  metersPerSecond: 6
+  courseStartPadding: 6
+  laneWidth: 2.2
+  visibilityLeadTime: 6
+  visibilityTailTime: 3
+  events:
+  - EncounterTime: 5
+    Type: 0
+    Lane: 0
+    Action: 3
+    CueLabel: JUMP!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 0.45, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 0.3, z: 1}
+    CollisionMode: 0
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 10
+    Type: 1
+    Lane: 0
+    Action: 6
+    CueLabel: POSE!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.7, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 15
+    Type: 3
+    Lane: 0
+    Action: 1
+    CueLabel: LEFT!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 0.9, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 0.28, y: 0.6, z: 1}
+    CollisionMode: 0
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 20
+    Type: 2
+    Lane: 0
+    Action: 4
+    CueLabel: DUCK!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 1.85, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 0.2, z: 1}
+    CollisionMode: 0
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 25
+    Type: 3
+    Lane: -1
+    Action: 2
+    CueLabel: RIGHT!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 0.9, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 0.28, y: 0.6, z: 1}
+    CollisionMode: 0
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 30
+    Type: 1
+    Lane: 0
+    Action: 6
+    CueLabel: POSE!
+    CueLeadTime: 1.4
+    PrefabVariation: 1
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.7, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 35
+    Type: 0
+    Lane: 0
+    Action: 3
+    CueLabel: JUMP!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 0.45, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 0.3, z: 1}
+    CollisionMode: 0
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 40
+    Type: 3
+    Lane: 0
+    Action: 2
+    CueLabel: RIGHT!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 0.9, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 0.28, y: 0.6, z: 1}
+    CollisionMode: 0
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 45
+    Type: 2
+    Lane: 0
+    Action: 4
+    CueLabel: DUCK!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 1.85, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 0.2, z: 1}
+    CollisionMode: 0
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 50
+    Type: 3
+    Lane: 1
+    Action: 1
+    CueLabel: LEFT!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 0.9, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 0.28, y: 0.6, z: 1}
+    CollisionMode: 0
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 56
+    Type: 4
+    Lane: 0
+    Action: 5
+    CueLabel: PUNCH!
+    CueLeadTime: 2
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 1.5, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 0
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 64
+    Type: 1
+    Lane: 0
+    Action: 6
+    CueLabel: POSE!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.7, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6

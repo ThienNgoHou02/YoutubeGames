@@ -1,0 +1,164 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be89b65ae57605a4c95f62a01a30fee6, type: 3}
+  m_Name: Step2Timeline
+  m_EditorClassIdentifier: 
+  stepNumber: 2
+  displayName: Step 2 - Hole in the Wall
+  duration: 60
+  runSpeedSource: 0
+  metersPerSecond: 6
+  courseStartPadding: 6
+  laneWidth: 2.2
+  visibilityLeadTime: 6
+  visibilityTailTime: 3
+  events:
+  - EncounterTime: 5
+    Type: 1
+    Lane: 0
+    Action: 6
+    CueLabel: POSE!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.7, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 10.5
+    Type: 1
+    Lane: 0
+    Action: 6
+    CueLabel: POSE!
+    CueLeadTime: 1.4
+    PrefabVariation: 1
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.7, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 16
+    Type: 1
+    Lane: 0
+    Action: 6
+    CueLabel: POSE!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.7, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 21.5
+    Type: 1
+    Lane: 0
+    Action: 6
+    CueLabel: POSE!
+    CueLeadTime: 1.4
+    PrefabVariation: 1
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.7, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 27
+    Type: 1
+    Lane: 0
+    Action: 6
+    CueLabel: POSE!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.7, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 32.5
+    Type: 1
+    Lane: 0
+    Action: 6
+    CueLabel: POSE!
+    CueLeadTime: 1.4
+    PrefabVariation: 1
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.7, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 38
+    Type: 1
+    Lane: 0
+    Action: 6
+    CueLabel: POSE!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.7, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 43.5
+    Type: 1
+    Lane: 0
+    Action: 6
+    CueLabel: POSE!
+    CueLeadTime: 1.4
+    PrefabVariation: 1
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.7, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 49
+    Type: 1
+    Lane: 0
+    Action: 6
+    CueLabel: POSE!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.7, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 55
+    Type: 1
+    Lane: 0
+    Action: 6
+    CueLabel: POSE!
+    CueLeadTime: 1.4
+    PrefabVariation: 1
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.7, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6

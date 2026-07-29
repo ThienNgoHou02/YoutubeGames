@@ -42,14 +42,67 @@ namespace GameYT.Warmup
         [Range(0f, 1f)]
         [SerializeField] private float pitchAmplitude = 0.1f;
 
-        [Title("Phản hồi hành động")]
-        [LabelText("Độ hạ camera khi tiếp đất")]
+        [Title("Cảm giác nhảy")]
+        [LabelText("Độ nén khi bật nhảy")]
+        [Tooltip("Camera hạ nhẹ trước khi cơ thể rời đất, tạo cảm giác chân phát lực.")]
         [Range(0f, 0.15f)]
-        [SerializeField] private float landingDrop = 0.03f;
+        [SerializeField] private float takeoffDip = 0.055f;
+
+        [LabelText("Góc ngẩng khi bật nhảy")]
+        [Range(0f, 4f)]
+        [SerializeField] private float takeoffPitch = 1.1f;
+
+        [LabelText("Thời gian bật nhảy")]
+        [MinValue(0.05f)]
+        [SerializeField] private float takeoffDuration = 0.16f;
+
+        [LabelText("Độ trễ camera trên không")]
+        [Tooltip("Mô phỏng quán tính của đầu so với cơ thể khi bay lên và rơi xuống.")]
+        [Range(0f, 0.2f)]
+        [SerializeField] private float airborneVerticalLag = 0.09f;
+
+        [LabelText("Góc camera trên không")]
+        [Range(0f, 4f)]
+        [SerializeField] private float airbornePitch = 0.8f;
+
+        [LabelText("Độ hạ camera khi tiếp đất")]
+        [Range(0f, 0.25f)]
+        [SerializeField] private float landingDrop = 0.12f;
 
         [LabelText("Góc chúi khi tiếp đất")]
-        [Range(0f, 3f)]
-        [SerializeField] private float landingPitch = 0.35f;
+        [Range(0f, 6f)]
+        [SerializeField] private float landingPitch = 2.2f;
+
+        [LabelText("Thời gian hồi sau tiếp đất")]
+        [MinValue(0.1f)]
+        [SerializeField] private float landingDuration = 0.34f;
+
+        [LabelText("Số nhịp rebound")]
+        [Range(0.5f, 3f)]
+        [SerializeField] private float landingOscillations = 1.35f;
+
+        [LabelText("Độ tắt dần rebound")]
+        [Range(1f, 12f)]
+        [SerializeField] private float landingDamping = 6.5f;
+
+        [LabelText("Rung camera khi chạm đất")]
+        [Range(0f, 0.05f)]
+        [SerializeField] private float landingShake = 0.014f;
+
+        [LabelText("Vận tốc va chạm tham chiếu")]
+        [Tooltip("Tốc độ rơi đạt mức này sẽ dùng đúng cường độ landing đã cấu hình.")]
+        [MinValue(0.1f)]
+        [SerializeField] private float landingReferenceSpeed = 9f;
+
+        [LabelText("FOV khi đang bay")]
+        [Range(0f, 5f)]
+        [SerializeField] private float airborneFieldOfViewBoost = 1.2f;
+
+        [LabelText("FOV punch khi tiếp đất")]
+        [Range(0f, 5f)]
+        [SerializeField] private float landingFieldOfViewPunch = 1.5f;
+
+        [Title("Phản hồi hành động")]
 
         [LabelText("Góc nghiêng khi chuyển làn")]
         [Range(0f, 2f)]
@@ -103,7 +156,9 @@ namespace GameYT.Warmup
         private float _forwardImpulse;
         private float _pitchImpulse;
         private float _rollImpulse;
-        private bool _wasGrounded;
+        private float _takeoffElapsed;
+        private float _landingElapsed;
+        private float _landingImpactScale = 1f;
 
         private void Awake()
         {
@@ -115,7 +170,7 @@ namespace GameYT.Warmup
                 _initialFieldOfView = _controlledCamera.fieldOfView;
             }
 
-            _wasGrounded = player != null && player.IsGrounded;
+            ResetJumpResponse();
         }
 
         private void OnEnable()
@@ -123,6 +178,8 @@ namespace GameYT.Warmup
             if (player != null)
             {
                 player.ActionPerformed += HandlePlayerAction;
+                player.JumpStarted += HandleJumpStarted;
+                player.Landed += HandleLanded;
             }
         }
 
@@ -131,8 +188,11 @@ namespace GameYT.Warmup
             if (player != null)
             {
                 player.ActionPerformed -= HandlePlayerAction;
+                player.JumpStarted -= HandleJumpStarted;
+                player.Landed -= HandleLanded;
             }
 
+            ResetJumpResponse();
             transform.localPosition = _initialLocalPosition;
             transform.localRotation = _initialLocalRotation;
             if (_controlledCamera != null)
@@ -149,7 +209,13 @@ namespace GameYT.Warmup
             }
 
             bool isGrounded = player.IsGrounded;
-            DetectLanding(isGrounded);
+            UpdateJumpResponse(
+                isGrounded,
+                out float jumpVerticalOffset,
+                out float jumpLateralOffset,
+                out float jumpPitchOffset,
+                out float jumpRollOffset,
+                out float jumpFieldOfViewOffset);
 
             float configuredSpeed = Mathf.Max(player.ConfiguredRunSpeed, 0.01f);
             float speedFactor = Mathf.Clamp(
@@ -184,20 +250,20 @@ namespace GameYT.Warmup
             Vector3 targetPosition = _initialLocalPosition;
             targetPosition.x +=
                 horizontalBob * _movementWeight +
-                _lateralImpulse * motionIntensity;
+                (_lateralImpulse + jumpLateralOffset) * motionIntensity;
             targetPosition.y +=
                 verticalBob * _movementWeight +
-                _verticalImpulse * motionIntensity;
+                (_verticalImpulse + jumpVerticalOffset) * motionIntensity;
             targetPosition.z += _forwardImpulse * motionIntensity;
 
             Quaternion targetRotation =
                 _initialLocalRotation *
                 Quaternion.Euler(
                     pitchBob * _movementWeight +
-                    _pitchImpulse * motionIntensity,
+                    (_pitchImpulse + jumpPitchOffset) * motionIntensity,
                     0f,
                     rollBob * _movementWeight +
-                    _rollImpulse * motionIntensity);
+                    (_rollImpulse + jumpRollOffset) * motionIntensity);
 
             float positionBlend =
                 1f - Mathf.Exp(-positionSharpness * Time.deltaTime);
@@ -213,12 +279,17 @@ namespace GameYT.Warmup
                 targetRotation,
                 rotationBlend);
 
-            UpdateFieldOfView(speedFactor);
+            UpdateFieldOfView(
+                speedFactor,
+                isGrounded,
+                jumpFieldOfViewOffset);
             RecoverImpulses();
-            _wasGrounded = isGrounded;
         }
 
-        private void UpdateFieldOfView(float speedFactor)
+        private void UpdateFieldOfView(
+            float speedFactor,
+            bool isGrounded,
+            float jumpFieldOfViewOffset)
         {
             if (_controlledCamera == null)
             {
@@ -228,7 +299,10 @@ namespace GameYT.Warmup
             float speedWeight = Mathf.Clamp01(speedFactor);
             float targetFieldOfView =
                 _initialFieldOfView +
-                runFieldOfViewBoost * speedWeight * motionIntensity;
+                (runFieldOfViewBoost * speedWeight +
+                 (isGrounded ? 0f : airborneFieldOfViewBoost) +
+                 jumpFieldOfViewOffset) *
+                motionIntensity;
             float fieldOfViewBlend =
                 1f - Mathf.Exp(-fieldOfViewSharpness * Time.deltaTime);
             _controlledCamera.fieldOfView = Mathf.Lerp(
@@ -237,13 +311,78 @@ namespace GameYT.Warmup
                 fieldOfViewBlend);
         }
 
-        private void DetectLanding(bool isGrounded)
+        private void UpdateJumpResponse(
+            bool isGrounded,
+            out float verticalOffset,
+            out float lateralOffset,
+            out float pitchOffset,
+            out float rollOffset,
+            out float fieldOfViewOffset)
         {
-            if (!_wasGrounded && isGrounded)
+            verticalOffset = 0f;
+            lateralOffset = 0f;
+            pitchOffset = 0f;
+            rollOffset = 0f;
+            fieldOfViewOffset = 0f;
+
+            if (_takeoffElapsed < takeoffDuration)
             {
-                _verticalImpulse = -landingDrop;
-                _pitchImpulse = landingPitch;
+                _takeoffElapsed += Time.deltaTime;
+                float takeoffProgress = Mathf.Clamp01(
+                    _takeoffElapsed / Mathf.Max(takeoffDuration, 0.01f));
+                float takeoffEnvelope = Mathf.Sin(takeoffProgress * Mathf.PI);
+                verticalOffset -= takeoffDip * takeoffEnvelope;
+                pitchOffset -= takeoffPitch * takeoffEnvelope;
             }
+
+            if (!isGrounded)
+            {
+                float normalizedVerticalVelocity = Mathf.Clamp(
+                    player.VerticalVelocity /
+                    Mathf.Max(landingReferenceSpeed, 0.1f),
+                    -1f,
+                    1f);
+                verticalOffset -=
+                    normalizedVerticalVelocity * airborneVerticalLag;
+                pitchOffset -=
+                    normalizedVerticalVelocity * airbornePitch;
+            }
+
+            if (_landingElapsed >= landingDuration)
+            {
+                return;
+            }
+
+            _landingElapsed += Time.deltaTime;
+            float landingProgress = Mathf.Clamp01(
+                _landingElapsed / Mathf.Max(landingDuration, 0.01f));
+            float damping = Mathf.Exp(-landingDamping * landingProgress);
+            float phase =
+                landingProgress * landingOscillations * Mathf.PI * 2f;
+            float rebound = Mathf.Cos(phase) * damping * _landingImpactScale;
+
+            verticalOffset -= landingDrop * rebound;
+            pitchOffset += landingPitch * rebound;
+
+            float shakeEnvelope =
+                Mathf.Exp(-12f * landingProgress) * _landingImpactScale;
+            float shakeTime = _landingElapsed;
+            lateralOffset +=
+                Mathf.Sin(shakeTime * 83f) * landingShake * shakeEnvelope;
+            verticalOffset +=
+                Mathf.Sin(shakeTime * 107f) *
+                landingShake *
+                0.65f *
+                shakeEnvelope;
+            rollOffset +=
+                Mathf.Sin(shakeTime * 71f) *
+                landingPitch *
+                0.2f *
+                shakeEnvelope;
+            fieldOfViewOffset =
+                landingFieldOfViewPunch *
+                Mathf.Exp(-8f * landingProgress) *
+                _landingImpactScale;
         }
 
         private void HandlePlayerAction(WarmupActionType action)
@@ -260,10 +399,6 @@ namespace GameYT.Warmup
                     _lateralImpulse = sideStepPush;
                     break;
 
-                case WarmupActionType.Jump:
-                    _pitchImpulse = -landingPitch * 0.35f;
-                    break;
-
                 case WarmupActionType.Duck:
                     _verticalImpulse = -landingDrop * 0.35f;
                     break;
@@ -272,6 +407,29 @@ namespace GameYT.Warmup
                     _forwardImpulse = punchPush;
                     break;
             }
+        }
+
+        private void HandleJumpStarted()
+        {
+            _takeoffElapsed = 0f;
+            _landingElapsed = landingDuration;
+        }
+
+        private void HandleLanded(float impactSpeed)
+        {
+            _landingImpactScale = Mathf.Clamp(
+                impactSpeed / Mathf.Max(landingReferenceSpeed, 0.1f),
+                0.65f,
+                1.5f);
+            _landingElapsed = 0f;
+            _takeoffElapsed = takeoffDuration;
+        }
+
+        private void ResetJumpResponse()
+        {
+            _takeoffElapsed = takeoffDuration;
+            _landingElapsed = landingDuration;
+            _landingImpactScale = 1f;
         }
 
         private void RecoverImpulses()

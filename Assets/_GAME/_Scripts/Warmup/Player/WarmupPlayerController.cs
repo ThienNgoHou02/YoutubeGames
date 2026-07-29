@@ -46,7 +46,11 @@ namespace GameYT.Warmup
         public float ConfiguredRunSpeed =>
             config != null ? config.AutoRunSpeed : 0f;
 
+        public float VerticalVelocity => _verticalVelocity;
+
         public event Action<WarmupActionType> ActionPerformed;
+        public event Action JumpStarted;
+        public event Action<float> Landed;
 
         private CharacterController _characterController;
         private float _verticalVelocity;
@@ -187,6 +191,7 @@ namespace GameYT.Warmup
 
             _verticalVelocity = Mathf.Sqrt(
                 config.JumpHeight * -2f * config.Gravity);
+            JumpStarted?.Invoke();
         }
 
         private void HandleDuckStateChanged(bool isHeld)
@@ -228,12 +233,14 @@ namespace GameYT.Warmup
 
         private void UpdateMovement()
         {
+            bool wasGrounded = _characterController.isGrounded;
             if (_characterController.isGrounded && _verticalVelocity < 0f)
             {
                 _verticalVelocity = -2f;
             }
 
             _verticalVelocity += config.Gravity * Time.deltaTime;
+            float verticalVelocityBeforeMove = _verticalVelocity;
 
             float previousLaneOffset = _currentLaneOffset;
             UpdateLaneChange();
@@ -248,6 +255,11 @@ namespace GameYT.Warmup
 
             motion.y = _verticalVelocity * Time.deltaTime;
             _characterController.Move(motion);
+
+            if (!wasGrounded && _characterController.isGrounded)
+            {
+                Landed?.Invoke(Mathf.Max(0f, -verticalVelocityBeforeMove));
+            }
         }
 
         private void UpdateLaneChange()

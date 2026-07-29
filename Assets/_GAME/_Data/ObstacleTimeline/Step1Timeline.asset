@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be89b65ae57605a4c95f62a01a30fee6, type: 3}
+  m_Name: Step1Timeline
+  m_EditorClassIdentifier: 
+  stepNumber: 1
+  displayName: Step 1 - Run & Jump
+  duration: 40
+  runSpeedSource: 0
+  metersPerSecond: 6
+  courseStartPadding: 6
+  laneWidth: 2.2
+  visibilityLeadTime: 6
+  visibilityTailTime: 3
+  events:
+  - EncounterTime: 6
+    Type: 0
+    Lane: 0
+    Action: 3
+    CueLabel: JUMP!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 0.45, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 0.3, z: 1}
+    CollisionMode: 0
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 11
+    Type: 0
+    Lane: 0
+    Action: 3
+    CueLabel: JUMP!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 0.45, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 0.3, z: 1}
+    CollisionMode: 0
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 16.5
+    Type: 0
+    Lane: 0
+    Action: 3
+    CueLabel: JUMP!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 0.45, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 0.3, z: 1}
+    CollisionMode: 0
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 23
+    Type: 0
+    Lane: 0
+    Action: 3
+    CueLabel: JUMP!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 0.45, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 0.3, z: 1}
+    CollisionMode: 0
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 29.5
+    Type: 0
+    Lane: 0
+    Action: 3
+    CueLabel: JUMP!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 0.45, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 0.3, z: 1}
+    CollisionMode: 0
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 35.5
+    Type: 0
+    Lane: 0
+    Action: 3
+    CueLabel: JUMP!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PositionOffset: {x: 0, y: 0.45, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 0.3, z: 1}
+    CollisionMode: 0
+    BossHitPoints: 4
+    BossStopDistance: 1.6

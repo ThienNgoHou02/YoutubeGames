@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4269615c99623844194e45e0d8d7a45f, type: 3}
   m_Name: WarmupPlayerConfig
   m_EditorClassIdentifier: 
-  autoRunSpeed: 18
+  autoRunSpeed: 13
   laneWidth: 2.2
   laneChangeSmoothTime: 0.14
   maximumLaneIndex: 1
-  jumpHeight: 1.25
+  jumpHeight: 2
   gravity: -25
   standingHeight: 1.8
   duckHeight: 1
   fieldOfView: 75
-  cameraStandingHeight: 3
+  cameraStandingHeight: 2
   cameraDuckHeight: 1.05
   cameraHeightSmoothTime: 0.08
   punchRange: 1.4

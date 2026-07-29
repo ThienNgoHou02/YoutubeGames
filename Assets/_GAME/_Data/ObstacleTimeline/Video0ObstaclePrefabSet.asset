@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6950f4e34ba4ad5499ed1cda3a83fc6f, type: 3}
+  m_Name: Video0ObstaclePrefabSet
+  m_EditorClassIdentifier: 
+  videoId: Video0
+  jumpPrefabs:
+  - {fileID: 5093284697296935739, guid: 228730ffdb3b08340b5c01ef21dddb37, type: 3}
+  poseWallPrefabs:
+  - {fileID: 2208740876003612711, guid: 629f2fdeb5affdb4387c3cee7d037b12, type: 3}
+  - {fileID: 2208740876003612711, guid: 2c5b906285070944caf3e566645a6dbc, type: 3}
+  duckBarrierPrefabs:
+  - {fileID: 5093284697296935739, guid: 228730ffdb3b08340b5c01ef21dddb37, type: 3}
+  laneBlockerPrefabs:
+  - {fileID: 5093284697296935739, guid: 228730ffdb3b08340b5c01ef21dddb37, type: 3}
+  bossWallPrefabs:
+  - {fileID: 5093284697296935739, guid: 228730ffdb3b08340b5c01ef21dddb37, type: 3}
