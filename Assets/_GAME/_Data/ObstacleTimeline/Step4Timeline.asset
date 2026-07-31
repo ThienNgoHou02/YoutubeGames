@@ -39,7 +39,7 @@ MonoBehaviour:
     CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 10
+  - EncounterTime: 9
     Type: 1
     Lane: 0
     Action: 6
@@ -54,7 +54,7 @@ MonoBehaviour:
     CollisionMode: 1
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 15
+  - EncounterTime: 12
     Type: 0
     Lane: 0
     Action: 3
@@ -84,7 +84,7 @@ MonoBehaviour:
     CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 15
+  - EncounterTime: 15.5
     Type: 3
     Lane: -1
     Action: 1
@@ -159,7 +159,7 @@ MonoBehaviour:
     CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 23
+  - EncounterTime: 22
     Type: 3
     Lane: 0
     Action: 0
@@ -279,7 +279,7 @@ MonoBehaviour:
     CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 40.5
+  - EncounterTime: 39
     Type: 3
     Lane: 0
     Action: 0
