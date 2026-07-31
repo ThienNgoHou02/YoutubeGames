@@ -73,6 +73,13 @@ namespace GameYT.Warmup
         [LabelText("Override")]
         public GameObject PrefabOverride;
 
+        [BoxGroup("Pose")]
+        [ShowIf(nameof(IsPoseWall))]
+        [AssetsOnly]
+        [LabelText("Mirror Human Override")]
+        [Tooltip("Override riêng cho event. Để trống sẽ lấy theo Pose Sprite List của Step.")]
+        public Sprite PoseSprite;
+
         [FoldoutGroup("Transform Override")]
         [LabelText("Position")]
         public Vector3 PositionOffset;
@@ -101,6 +108,7 @@ namespace GameYT.Warmup
         public float BossStopDistance = 1.6f;
 
         public bool IsBossWall => Type == WarmupObstacleType.BossWall;
+        public bool IsPoseWall => Type == WarmupObstacleType.PoseWall;
 
         public string InspectorLabel
         {

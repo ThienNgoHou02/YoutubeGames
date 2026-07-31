@@ -14,13 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stepNumber: 3
   displayName: Step 3 - Jump, Pose & Duck
-  duration: 72
+  duration: 68
   runSpeedSource: 0
   metersPerSecond: 6
   courseStartPadding: 6
   laneWidth: 2.2
   visibilityLeadTime: 6
   visibilityTailTime: 3
+  poseSprites: []
+  poseRandomSeed: 20260730
   events:
   - EncounterTime: 5
     Type: 1
@@ -30,13 +32,14 @@ MonoBehaviour:
     CueLeadTime: 1.4
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 3.7, z: 0}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: 3, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
     ScaleMultiplier: {x: 1, y: 1, z: 1}
     CollisionMode: 1
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 10
+  - EncounterTime: 8.5
     Type: 0
     Lane: 0
     Action: 3
@@ -44,27 +47,29 @@ MonoBehaviour:
     CueLeadTime: 1.4
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 0.45, z: 0}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: -1, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
     ScaleMultiplier: {x: 1, y: 0.3, z: 1}
     CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 15
+  - EncounterTime: 13
     Type: 2
     Lane: 0
     Action: 4
     CueLabel: DUCK!
     CueLeadTime: 1.4
     PrefabVariation: 0
-    PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 1.85, z: 0}
+    PrefabOverride: {fileID: 836273058556938773, guid: 21568b0709abd0345b4faaab4034fa3b, type: 3}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: -2, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
-    ScaleMultiplier: {x: 1, y: 0.2, z: 1}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
     CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 20
+  - EncounterTime: 17.5
     Type: 1
     Lane: 0
     Action: 6
@@ -72,27 +77,44 @@ MonoBehaviour:
     CueLeadTime: 1.4
     PrefabVariation: 1
     PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 3.7, z: 0}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: 3, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
     ScaleMultiplier: {x: 1, y: 1, z: 1}
     CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 21.5
+    Type: 0
+    Lane: 0
+    Action: 3
+    CueLabel: JUMP!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: -1, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 0.3, z: 1}
+    CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6
   - EncounterTime: 25
-    Type: 0
+    Type: 2
     Lane: 0
-    Action: 3
-    CueLabel: JUMP!
+    Action: 4
+    CueLabel: DUCK!
     CueLeadTime: 1.4
     PrefabVariation: 0
-    PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 0.45, z: 0}
+    PrefabOverride: {fileID: 836273058556938773, guid: 21568b0709abd0345b4faaab4034fa3b, type: 3}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: -2, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
-    ScaleMultiplier: {x: 1, y: 0.3, z: 1}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
     CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 31
+  - EncounterTime: 28.5
     Type: 1
     Lane: 0
     Action: 6
@@ -100,27 +122,29 @@ MonoBehaviour:
     CueLeadTime: 1.4
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 3.7, z: 0}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: 3, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
     ScaleMultiplier: {x: 1, y: 1, z: 1}
     CollisionMode: 1
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 37
+  - EncounterTime: 34.5
     Type: 2
     Lane: 0
     Action: 4
     CueLabel: DUCK!
     CueLeadTime: 1.4
     PrefabVariation: 0
-    PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 1.85, z: 0}
+    PrefabOverride: {fileID: 836273058556938773, guid: 21568b0709abd0345b4faaab4034fa3b, type: 3}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: -2, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
-    ScaleMultiplier: {x: 1, y: 0.2, z: 1}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
     CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 43
+  - EncounterTime: 39.5
     Type: 0
     Lane: 0
     Action: 3
@@ -128,13 +152,14 @@ MonoBehaviour:
     CueLeadTime: 1.4
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 0.45, z: 0}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: -1, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
     ScaleMultiplier: {x: 1, y: 0.3, z: 1}
     CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 49
+  - EncounterTime: 45
     Type: 1
     Lane: 0
     Action: 6
@@ -142,27 +167,29 @@ MonoBehaviour:
     CueLeadTime: 1.4
     PrefabVariation: 1
     PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 3.7, z: 0}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: 3, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
     ScaleMultiplier: {x: 1, y: 1, z: 1}
     CollisionMode: 1
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 55
+  - EncounterTime: 49.5
     Type: 2
     Lane: 0
     Action: 4
     CueLabel: DUCK!
     CueLeadTime: 1.4
     PrefabVariation: 0
-    PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 1.85, z: 0}
+    PrefabOverride: {fileID: 836273058556938773, guid: 21568b0709abd0345b4faaab4034fa3b, type: 3}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: -2, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
-    ScaleMultiplier: {x: 1, y: 0.2, z: 1}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
     CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 61
+  - EncounterTime: 54.5
     Type: 0
     Lane: 0
     Action: 3
@@ -170,13 +197,14 @@ MonoBehaviour:
     CueLeadTime: 1.4
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 0.45, z: 0}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: -1, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
     ScaleMultiplier: {x: 1, y: 0.3, z: 1}
     CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 67
+  - EncounterTime: 59.5
     Type: 1
     Lane: 0
     Action: 6
@@ -184,9 +212,25 @@ MonoBehaviour:
     CueLeadTime: 1.4
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 3.7, z: 0}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: 3, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
     ScaleMultiplier: {x: 1, y: 1, z: 1}
     CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 64.5
+    Type: 2
+    Lane: 0
+    Action: 4
+    CueLabel: DUCK!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 836273058556938773, guid: 21568b0709abd0345b4faaab4034fa3b, type: 3}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: -2, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6

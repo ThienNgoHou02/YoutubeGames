@@ -78,6 +78,24 @@ namespace GameYT.Warmup
         [Tooltip("Obstacle được ẩn sau encounter để giảm draw call.")]
         [SerializeField] private float visibilityTailTime = 3f;
 
+        [BoxGroup("Mirror Pose Library")]
+        [ShowIf(nameof(IsMirrorPoseStep))]
+        [ListDrawerSettings(
+            Expanded = true,
+            DraggableItems = true,
+            ShowIndexLabels = true,
+            ShowPaging = false,
+            ShowItemCount = true)]
+        [AssetsOnly]
+        [SerializeField] private Sprite[] poseSprites =
+            Array.Empty<Sprite>();
+
+        [BoxGroup("Mirror Pose Library")]
+        [ShowIf(nameof(IsMirrorPoseStep))]
+        [LabelText("Overflow Seed")]
+        [Tooltip("Đổi seed để tạo thứ tự random khác cho các Pose Wall vượt quá số sprite trong list.")]
+        [SerializeField] private int poseRandomSeed = 20260730;
+
         [Title(
             "Obstacle Timeline",
             "Mỗi item có thể thu gọn. Kéo handle bên trái để đổi thứ tự.")]
@@ -100,6 +118,8 @@ namespace GameYT.Warmup
         public float LaneWidth => laneWidth;
         public float VisibilityLeadTime => visibilityLeadTime;
         public float VisibilityTailTime => visibilityTailTime;
+        public int PoseSpriteCount =>
+            poseSprites != null ? poseSprites.Length : 0;
         public int EventCount => events.Length;
 
         public WarmupObstacleEvent GetEvent(int index)
@@ -117,9 +137,64 @@ namespace GameYT.Warmup
             return Mathf.Max(0.1f, playerConfigSpeed);
         }
 
+        public Sprite ResolvePoseSprite(
+            int poseOrderIndex,
+            Sprite eventOverride)
+        {
+            if (eventOverride != null)
+            {
+                return eventOverride;
+            }
+
+            if (poseSprites == null ||
+                poseSprites.Length == 0 ||
+                poseOrderIndex < 0)
+            {
+                return null;
+            }
+
+            if (poseOrderIndex < poseSprites.Length)
+            {
+                return poseSprites[poseOrderIndex];
+            }
+
+            int startIndex = CalculateOverflowPoseIndex(poseOrderIndex);
+            for (int offset = 0; offset < poseSprites.Length; offset++)
+            {
+                int index = (startIndex + offset) % poseSprites.Length;
+                if (poseSprites[index] != null)
+                {
+                    return poseSprites[index];
+                }
+            }
+
+            return null;
+        }
+
+        private int CalculateOverflowPoseIndex(int poseOrderIndex)
+        {
+            unchecked
+            {
+                uint hash = (uint)poseRandomSeed;
+                hash ^= (uint)poseOrderIndex +
+                        0x9E3779B9u +
+                        (hash << 6) +
+                        (hash >> 2);
+                hash ^= hash >> 16;
+                hash *= 0x7FEB352Du;
+                hash ^= hash >> 15;
+                return (int)(hash % (uint)poseSprites.Length);
+            }
+        }
+
         private bool UsesPhaseSpeedOverride()
         {
             return runSpeedSource == WarmupRunSpeedSource.PhaseOverride;
+        }
+
+        private bool IsMirrorPoseStep()
+        {
+            return stepNumber == 2;
         }
 
         private bool HasDisplayName(string value)
@@ -142,6 +217,13 @@ namespace GameYT.Warmup
             metersPerSecond = Mathf.Max(0.1f, phaseMetersPerSecond);
             events = timelineEvents ?? Array.Empty<WarmupObstacleEvent>();
             SortEvents();
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+
+        public void SetPoseLibrary(Sprite[] sprites, int randomSeed)
+        {
+            poseSprites = sprites ?? Array.Empty<Sprite>();
+            poseRandomSeed = randomSeed;
             UnityEditor.EditorUtility.SetDirty(this);
         }
 

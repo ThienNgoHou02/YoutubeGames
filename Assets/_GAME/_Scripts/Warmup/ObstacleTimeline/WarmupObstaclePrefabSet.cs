@@ -23,7 +23,26 @@ namespace GameYT.Warmup
 
         public string VideoId => videoId;
 
-        public GameObject GetPrefab(WarmupObstacleType type, int variationIndex)
+        public bool HasPrefab(WarmupObstacleType type)
+        {
+            GameObject[] prefabs = GetArray(type);
+            if (prefabs == null)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < prefabs.Length; i++)
+            {
+                if (prefabs[i] != null)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public GameObject GetRandomPrefab(WarmupObstacleType type)
         {
             GameObject[] prefabs = GetArray(type);
             if (prefabs == null || prefabs.Length == 0)
@@ -31,8 +50,38 @@ namespace GameYT.Warmup
                 return null;
             }
 
-            int safeIndex = Mathf.Abs(variationIndex) % prefabs.Length;
-            return prefabs[safeIndex];
+            int validPrefabCount = 0;
+            for (int i = 0; i < prefabs.Length; i++)
+            {
+                if (prefabs[i] != null)
+                {
+                    validPrefabCount++;
+                }
+            }
+
+            if (validPrefabCount == 0)
+            {
+                return null;
+            }
+
+            int randomIndex = UnityEngine.Random.Range(0, validPrefabCount);
+            for (int i = 0; i < prefabs.Length; i++)
+            {
+                GameObject prefab = prefabs[i];
+                if (prefab == null)
+                {
+                    continue;
+                }
+
+                if (randomIndex == 0)
+                {
+                    return prefab;
+                }
+
+                randomIndex--;
+            }
+
+            return null;
         }
 
         private GameObject[] GetArray(WarmupObstacleType type)

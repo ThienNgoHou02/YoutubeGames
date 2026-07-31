@@ -52,7 +52,7 @@ MonoBehaviour:
     BossStopDistance: 1.6
   - EncounterTime: 15
     Type: 3
-    Lane: 0
+    Lane: -1
     Action: 1
     CueLabel: LEFT!
     CueLeadTime: 1.4
@@ -80,7 +80,7 @@ MonoBehaviour:
     BossStopDistance: 1.6
   - EncounterTime: 25
     Type: 3
-    Lane: -1
+    Lane: 1
     Action: 2
     CueLabel: RIGHT!
     CueLeadTime: 1.4
@@ -122,7 +122,7 @@ MonoBehaviour:
     BossStopDistance: 1.6
   - EncounterTime: 40
     Type: 3
-    Lane: 0
+    Lane: 1
     Action: 2
     CueLabel: RIGHT!
     CueLeadTime: 1.4
@@ -150,7 +150,7 @@ MonoBehaviour:
     BossStopDistance: 1.6
   - EncounterTime: 50
     Type: 3
-    Lane: 1
+    Lane: -1
     Action: 1
     CueLabel: LEFT!
     CueLeadTime: 1.4

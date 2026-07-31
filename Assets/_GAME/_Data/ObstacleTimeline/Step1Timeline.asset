@@ -14,15 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stepNumber: 1
   displayName: Step 1 - Run & Jump
-  duration: 40
+  duration: 30
   runSpeedSource: 0
   metersPerSecond: 6
   courseStartPadding: 6
   laneWidth: 2.2
   visibilityLeadTime: 6
   visibilityTailTime: 3
+  poseSprites: []
+  poseRandomSeed: 20260730
   events:
-  - EncounterTime: 6
+  - EncounterTime: 4.5
     Type: 0
     Lane: 0
     Action: 3
@@ -30,13 +32,14 @@ MonoBehaviour:
     CueLeadTime: 1.4
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 0.45, z: 0}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: -1, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
-    ScaleMultiplier: {x: 1, y: 0.3, z: 1}
+    ScaleMultiplier: {x: 1, y: 0.9, z: 1}
     CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 11
+  - EncounterTime: 8
     Type: 0
     Lane: 0
     Action: 3
@@ -44,13 +47,14 @@ MonoBehaviour:
     CueLeadTime: 1.4
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 0.45, z: 0}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: -1, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
-    ScaleMultiplier: {x: 1, y: 0.3, z: 1}
+    ScaleMultiplier: {x: 1, y: 0.9, z: 1}
     CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 16.5
+  - EncounterTime: 12
     Type: 0
     Lane: 0
     Action: 3
@@ -58,13 +62,14 @@ MonoBehaviour:
     CueLeadTime: 1.4
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 0.45, z: 0}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: -1, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
-    ScaleMultiplier: {x: 1, y: 0.3, z: 1}
+    ScaleMultiplier: {x: 1, y: 0.9, z: 1}
     CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 23
+  - EncounterTime: 15.5
     Type: 0
     Lane: 0
     Action: 3
@@ -72,13 +77,14 @@ MonoBehaviour:
     CueLeadTime: 1.4
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 0.45, z: 0}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: -1, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
-    ScaleMultiplier: {x: 1, y: 0.3, z: 1}
+    ScaleMultiplier: {x: 1, y: 0.9, z: 1}
     CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 29.5
+  - EncounterTime: 19.5
     Type: 0
     Lane: 0
     Action: 3
@@ -86,13 +92,14 @@ MonoBehaviour:
     CueLeadTime: 1.4
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 0.45, z: 0}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: -1, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
-    ScaleMultiplier: {x: 1, y: 0.3, z: 1}
+    ScaleMultiplier: {x: 1, y: 0.9, z: 1}
     CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 35.5
+  - EncounterTime: 23.5
     Type: 0
     Lane: 0
     Action: 3
@@ -100,9 +107,25 @@ MonoBehaviour:
     CueLeadTime: 1.4
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 0.45, z: 0}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: -1, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
-    ScaleMultiplier: {x: 1, y: 0.3, z: 1}
+    ScaleMultiplier: {x: 1, y: 0.9, z: 1}
+    CollisionMode: 0
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 27
+    Type: 0
+    Lane: 0
+    Action: 3
+    CueLabel: JUMP!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 0}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: -1, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 0.9, z: 1}
     CollisionMode: 0
     BossHitPoints: 4
     BossStopDistance: 1.6

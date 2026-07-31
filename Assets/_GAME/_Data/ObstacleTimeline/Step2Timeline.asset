@@ -14,13 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stepNumber: 2
   displayName: Step 2 - Hole in the Wall
-  duration: 60
+  duration: 48
   runSpeedSource: 0
   metersPerSecond: 6
   courseStartPadding: 6
   laneWidth: 2.2
   visibilityLeadTime: 6
   visibilityTailTime: 3
+  poseSprites:
+  - {fileID: -738078249, guid: 49347baff0be7f4478cddbc64766fc08, type: 3}
+  - {fileID: 211826849, guid: 49347baff0be7f4478cddbc64766fc08, type: 3}
+  - {fileID: -1730139332, guid: 49347baff0be7f4478cddbc64766fc08, type: 3}
+  - {fileID: 1303121468, guid: 49347baff0be7f4478cddbc64766fc08, type: 3}
+  - {fileID: -1909801992, guid: 49347baff0be7f4478cddbc64766fc08, type: 3}
+  - {fileID: -93012989, guid: 49347baff0be7f4478cddbc64766fc08, type: 3}
+  - {fileID: 1511411164, guid: 49347baff0be7f4478cddbc64766fc08, type: 3}
+  - {fileID: 1280913818, guid: 49347baff0be7f4478cddbc64766fc08, type: 3}
+  - {fileID: 1282853456, guid: 49347baff0be7f4478cddbc64766fc08, type: 3}
+  - {fileID: 191592221, guid: 49347baff0be7f4478cddbc64766fc08, type: 3}
+  - {fileID: 740367212, guid: 49347baff0be7f4478cddbc64766fc08, type: 3}
+  - {fileID: -1909801992, guid: 49347baff0be7f4478cddbc64766fc08, type: 3}
+  poseRandomSeed: 20260730
   events:
   - EncounterTime: 5
     Type: 1
@@ -29,134 +43,144 @@ MonoBehaviour:
     CueLabel: POSE!
     CueLeadTime: 1.4
     PrefabVariation: 0
-    PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 3.7, z: 0}
+    PrefabOverride: {fileID: 1028765022149125029, guid: 308c4d1e35eb8ce4d9d0fed5408f1fa2, type: 3}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.5, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
     ScaleMultiplier: {x: 1, y: 1, z: 1}
     CollisionMode: 1
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 10.5
-    Type: 1
-    Lane: 0
-    Action: 6
-    CueLabel: POSE!
-    CueLeadTime: 1.4
-    PrefabVariation: 1
-    PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 3.7, z: 0}
-    RotationOffset: {x: 0, y: 0, z: 0}
-    ScaleMultiplier: {x: 1, y: 1, z: 1}
-    CollisionMode: 1
-    BossHitPoints: 4
-    BossStopDistance: 1.6
-  - EncounterTime: 16
+  - EncounterTime: 10
     Type: 1
     Lane: 0
     Action: 6
     CueLabel: POSE!
     CueLeadTime: 1.4
     PrefabVariation: 0
-    PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 3.7, z: 0}
+    PrefabOverride: {fileID: 1028765022149125029, guid: 308c4d1e35eb8ce4d9d0fed5408f1fa2, type: 3}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.5, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
     ScaleMultiplier: {x: 1, y: 1, z: 1}
     CollisionMode: 1
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 21.5
-    Type: 1
-    Lane: 0
-    Action: 6
-    CueLabel: POSE!
-    CueLeadTime: 1.4
-    PrefabVariation: 1
-    PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 3.7, z: 0}
-    RotationOffset: {x: 0, y: 0, z: 0}
-    ScaleMultiplier: {x: 1, y: 1, z: 1}
-    CollisionMode: 1
-    BossHitPoints: 4
-    BossStopDistance: 1.6
-  - EncounterTime: 27
+  - EncounterTime: 14
     Type: 1
     Lane: 0
     Action: 6
     CueLabel: POSE!
     CueLeadTime: 1.4
     PrefabVariation: 0
-    PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 3.7, z: 0}
+    PrefabOverride: {fileID: 1028765022149125029, guid: 308c4d1e35eb8ce4d9d0fed5408f1fa2, type: 3}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.5, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
     ScaleMultiplier: {x: 1, y: 1, z: 1}
     CollisionMode: 1
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 32.5
-    Type: 1
-    Lane: 0
-    Action: 6
-    CueLabel: POSE!
-    CueLeadTime: 1.4
-    PrefabVariation: 1
-    PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 3.7, z: 0}
-    RotationOffset: {x: 0, y: 0, z: 0}
-    ScaleMultiplier: {x: 1, y: 1, z: 1}
-    CollisionMode: 1
-    BossHitPoints: 4
-    BossStopDistance: 1.6
-  - EncounterTime: 38
+  - EncounterTime: 20
     Type: 1
     Lane: 0
     Action: 6
     CueLabel: POSE!
     CueLeadTime: 1.4
     PrefabVariation: 0
-    PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 3.7, z: 0}
+    PrefabOverride: {fileID: 1028765022149125029, guid: 308c4d1e35eb8ce4d9d0fed5408f1fa2, type: 3}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.5, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
     ScaleMultiplier: {x: 1, y: 1, z: 1}
     CollisionMode: 1
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 43.5
-    Type: 1
-    Lane: 0
-    Action: 6
-    CueLabel: POSE!
-    CueLeadTime: 1.4
-    PrefabVariation: 1
-    PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 3.7, z: 0}
-    RotationOffset: {x: 0, y: 0, z: 0}
-    ScaleMultiplier: {x: 1, y: 1, z: 1}
-    CollisionMode: 1
-    BossHitPoints: 4
-    BossStopDistance: 1.6
-  - EncounterTime: 49
+  - EncounterTime: 26
     Type: 1
     Lane: 0
     Action: 6
     CueLabel: POSE!
     CueLeadTime: 1.4
     PrefabVariation: 0
-    PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 3.7, z: 0}
+    PrefabOverride: {fileID: 1028765022149125029, guid: 308c4d1e35eb8ce4d9d0fed5408f1fa2, type: 3}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.5, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
     ScaleMultiplier: {x: 1, y: 1, z: 1}
     CollisionMode: 1
     BossHitPoints: 4
     BossStopDistance: 1.6
-  - EncounterTime: 55
+  - EncounterTime: 31.5
     Type: 1
     Lane: 0
     Action: 6
     CueLabel: POSE!
     CueLeadTime: 1.4
-    PrefabVariation: 1
-    PrefabOverride: {fileID: 0}
-    PositionOffset: {x: 0, y: 3.7, z: 0}
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 1028765022149125029, guid: 308c4d1e35eb8ce4d9d0fed5408f1fa2, type: 3}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.5, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 36.5
+    Type: 1
+    Lane: 0
+    Action: 6
+    CueLabel: POSE!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 1028765022149125029, guid: 308c4d1e35eb8ce4d9d0fed5408f1fa2, type: 3}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.5, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 40.5
+    Type: 1
+    Lane: 0
+    Action: 6
+    CueLabel: POSE!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 1028765022149125029, guid: 308c4d1e35eb8ce4d9d0fed5408f1fa2, type: 3}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.5, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 43
+    Type: 1
+    Lane: 0
+    Action: 6
+    CueLabel: POSE!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 1028765022149125029, guid: 308c4d1e35eb8ce4d9d0fed5408f1fa2, type: 3}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: 3.5, z: 0}
+    RotationOffset: {x: 0, y: 0, z: 0}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    CollisionMode: 1
+    BossHitPoints: 4
+    BossStopDistance: 1.6
+  - EncounterTime: 45.5
+    Type: 1
+    Lane: 0
+    Action: 6
+    CueLabel: POSE!
+    CueLeadTime: 1.4
+    PrefabVariation: 0
+    PrefabOverride: {fileID: 1028765022149125029, guid: 308c4d1e35eb8ce4d9d0fed5408f1fa2, type: 3}
+    PoseSprite: {fileID: 0}
+    PositionOffset: {x: 0, y: 3, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
     ScaleMultiplier: {x: 1, y: 1, z: 1}
     CollisionMode: 1

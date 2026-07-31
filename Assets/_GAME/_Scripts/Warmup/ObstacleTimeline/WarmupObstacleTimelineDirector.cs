@@ -68,8 +68,7 @@ namespace GameYT.Warmup
 
         private int _nextCueIndex;
         private int _nextBossIndex;
-        private Vector3 _courseForward;
-        private Vector3 _courseRight;
+        private WarmupTimelineCourseFrame _courseFrame;
         private WarmupBossWall _activeBossWall;
         private bool _courseBuilt;
 
@@ -224,19 +223,19 @@ namespace GameYT.Warmup
             UnsubscribeBossWalls();
             _runtimeObstacles.Clear();
             ActiveRunSpeed = phase.ResolveRunSpeed(player.ConfiguredRunSpeed);
-            _courseForward = player.transform.forward.normalized;
-            _courseRight = player.transform.right.normalized;
-            Vector3 courseOrigin = player.transform.position;
+            _courseFrame =
+                new WarmupTimelineCourseFrame(player.transform);
+            int poseOrderIndex = 0;
 
             for (int i = 0; i < phase.EventCount; i++)
             {
                 WarmupObstacleEvent obstacleEvent = phase.GetEvent(i);
+                int currentPoseOrderIndex =
+                    obstacleEvent.IsPoseWall ? poseOrderIndex++ : -1;
                 GameObject prefab =
                     obstacleEvent.PrefabOverride != null
                         ? obstacleEvent.PrefabOverride
-                        : prefabSet.GetPrefab(
-                            obstacleEvent.Type,
-                            obstacleEvent.PrefabVariation);
+                        : prefabSet.GetRandomPrefab(obstacleEvent.Type);
 
                 if (prefab == null)
                 {
@@ -251,20 +250,21 @@ namespace GameYT.Warmup
                     continue;
                 }
 
-                float forwardDistance =
-                    Mathf.Max(
-                        phase.CourseStartPadding,
-                        obstacleEvent.EncounterTime * ActiveRunSpeed);
-                float lateralDistance =
-                    (int)obstacleEvent.Lane * phase.LaneWidth;
                 Vector3 position =
-                    courseOrigin +
-                    _courseForward * forwardDistance +
-                    _courseRight * lateralDistance +
-                    player.transform.TransformVector(obstacleEvent.PositionOffset);
+                    WarmupTimelinePositionCalculator
+                        .CalculateObstaclePosition(
+                            _courseFrame,
+                            obstacleEvent.EncounterTime,
+                            ActiveRunSpeed,
+                            phase.CourseStartPadding,
+                            obstacleEvent.Lane,
+                            phase.LaneWidth,
+                            obstacleEvent.PositionOffset);
                 Quaternion rotation =
-                    player.transform.rotation *
-                    Quaternion.Euler(obstacleEvent.RotationOffset);
+                    WarmupTimelinePositionCalculator
+                        .CalculateObstacleRotation(
+                            _courseFrame,
+                            obstacleEvent.RotationOffset);
 
                 GameObject instance = Instantiate(
                     prefab,
@@ -278,6 +278,10 @@ namespace GameYT.Warmup
                     Vector3.Scale(
                         instance.transform.localScale,
                         obstacleEvent.ScaleMultiplier);
+                ApplyPoseSprite(
+                    instance,
+                    obstacleEvent,
+                    currentPoseOrderIndex);
                 ApplyCollisionMode(instance, obstacleEvent.CollisionMode);
 
                 WarmupBossWall bossWall = null;
@@ -305,6 +309,37 @@ namespace GameYT.Warmup
 
             SubscribeBossWalls();
             _courseBuilt = true;
+        }
+
+        private void ApplyPoseSprite(
+            GameObject instance,
+            WarmupObstacleEvent obstacleEvent,
+            int poseOrderIndex)
+        {
+            if (!obstacleEvent.IsPoseWall)
+            {
+                return;
+            }
+
+            Sprite poseSprite = phase.ResolvePoseSprite(
+                poseOrderIndex,
+                obstacleEvent.PoseSprite);
+            if (poseSprite == null)
+            {
+                return;
+            }
+
+            if (!instance.TryGetComponent(
+                    out WarmupPoseSpriteTarget poseTarget))
+            {
+                Debug.LogWarning(
+                    "Prefab Pose Wall thiếu WarmupPoseSpriteTarget tại " +
+                    obstacleEvent.EncounterTime.ToString("0.0") + "s.",
+                    instance);
+                return;
+            }
+
+            poseTarget.SetPose(poseSprite);
         }
 
         private void ClearCourse()
@@ -371,7 +406,7 @@ namespace GameYT.Warmup
 
                 float forwardDistance = Vector3.Dot(
                     runtime.Instance.transform.position - player.transform.position,
-                    _courseForward);
+                    _courseFrame.Forward);
                 if (forwardDistance < -0.5f)
                 {
                     _nextBossIndex++;
@@ -405,15 +440,14 @@ namespace GameYT.Warmup
                     continue;
                 }
 
-                float visibleStart =
-                    runtime.Data.EncounterTime - phase.VisibilityLeadTime;
-                float visibleEnd =
-                    runtime.Data.EncounterTime + phase.VisibilityTailTime;
                 bool shouldBeVisible =
-                    ElapsedTime >= visibleStart &&
-                    (ElapsedTime <= visibleEnd ||
-                     runtime.BossWall != null &&
-                     runtime.BossWall.IsFightActive);
+                    WarmupTimelinePositionCalculator.IsObstacleVisible(
+                        ElapsedTime,
+                        runtime.Data.EncounterTime,
+                        phase.VisibilityLeadTime,
+                        phase.VisibilityTailTime,
+                        runtime.BossWall != null &&
+                        runtime.BossWall.IsFightActive);
 
                 if (runtime.Instance.activeSelf != shouldBeVisible)
                 {

@@ -13,8 +13,10 @@ namespace GameYT.Warmup.Editor
     {
         private const string DataFolder =
             "Assets/_GAME/_Data/ObstacleTimeline";
+        private const string PrefabSetFolder =
+            "Assets/_GAME/_Data/PrefabSet";
         private const string Video0SetPath =
-            DataFolder + "/Video0ObstaclePrefabSet.asset";
+            PrefabSetFolder + "/Video0.asset";
         private const string PhasePathFormat =
             DataFolder + "/Step{0}Timeline.asset";
         private const string ScenePath =
@@ -25,6 +27,8 @@ namespace GameYT.Warmup.Editor
             "Assets/_GAME/_Scripts/Warmup/UI/Warmup HUD.prefab";
         private const string Video0PrefabFolder =
             "Assets/_GAME/obstacle_Prefab/Video0";
+        private const string DefaultPoseSpriteSheetPath =
+            "Assets/_GAME/Art/DongtacWarnUP.png";
         private const string PaperShardMaterialPath =
             "Assets/_GAME/_Materials/WarmupPaperShard.mat";
         private const string PlayerConfigPath =
@@ -144,13 +148,21 @@ namespace GameYT.Warmup.Editor
         private static WarmupObstaclePrefabSet CreateVideo0PrefabSet()
         {
             WarmupObstaclePrefabSet asset =
-                LoadOrCreateAsset<WarmupObstaclePrefabSet>(Video0SetPath);
+                AssetDatabase.LoadAssetAtPath<WarmupObstaclePrefabSet>(
+                    Video0SetPath);
+            if (asset != null)
+            {
+                return asset;
+            }
+
+            EnsureFolder(PrefabSetFolder);
+            asset = LoadOrCreateAsset<WarmupObstaclePrefabSet>(Video0SetPath);
             GameObject cube = AssetDatabase.LoadAssetAtPath<GameObject>(
                 Video0PrefabFolder + "/Cube.prefab");
             GameObject poseA = AssetDatabase.LoadAssetAtPath<GameObject>(
-                Video0PrefabFolder + "/Barrie.prefab");
+                Video0PrefabFolder + "/Boss.prefab");
             GameObject poseB = AssetDatabase.LoadAssetAtPath<GameObject>(
-                Video0PrefabFolder + "/Barrie2.prefab");
+                Video0PrefabFolder + "/Boss1.prefab");
 
             asset.SetData(
                 "Video0",
@@ -181,11 +193,14 @@ namespace GameYT.Warmup.Editor
                 60f,
                 new[]
                 {
-                    Pose(5f, 0), Pose(10.5f, 1), Pose(16f, 0),
-                    Pose(21.5f, 1), Pose(27f, 0), Pose(32.5f, 1),
-                    Pose(38f, 0), Pose(43.5f, 1), Pose(49f, 0),
-                    Pose(55f, 1)
+                    MirrorPose(5f), MirrorPose(10.5f), MirrorPose(16f),
+                    MirrorPose(21.5f), MirrorPose(27f), MirrorPose(32.5f),
+                    MirrorPose(38f), MirrorPose(43.5f), MirrorPose(49f),
+                    MirrorPose(55f)
                 });
+            phases[1].SetPoseLibrary(
+                LoadDefaultPoseSprites(),
+                20260730);
 
             phases[2] = CreatePhase(
                 3,
@@ -206,13 +221,13 @@ namespace GameYT.Warmup.Editor
                 {
                     Jump(5f),
                     Pose(10f, 0),
-                    LaneBlock(15f, WarmupLane.Center, WarmupActionType.MoveLeft),
-                    LaneBlock(20f, WarmupLane.Left, WarmupActionType.MoveRight),
+                    LaneBlock(15f, WarmupLane.Left),
+                    LaneBlock(20f, WarmupLane.Right),
                     Duck(25f),
                     Pose(30f, 1),
-                    LaneBlock(35f, WarmupLane.Center, WarmupActionType.MoveRight),
+                    LaneBlock(35f, WarmupLane.Right),
                     Jump(40f),
-                    LaneBlock(45f, WarmupLane.Right, WarmupActionType.MoveLeft),
+                    LaneBlock(45f, WarmupLane.Left),
                     Duck(50f),
                     Pose(55f, 0),
                     Jump(61f)
@@ -226,14 +241,14 @@ namespace GameYT.Warmup.Editor
                 {
                     Jump(5f),
                     Pose(10f, 0),
-                    LaneBlock(15f, WarmupLane.Center, WarmupActionType.MoveLeft),
+                    LaneBlock(15f, WarmupLane.Left),
                     Duck(20f),
-                    LaneBlock(25f, WarmupLane.Left, WarmupActionType.MoveRight),
+                    LaneBlock(25f, WarmupLane.Right),
                     Pose(30f, 1),
                     Jump(35f),
-                    LaneBlock(40f, WarmupLane.Center, WarmupActionType.MoveRight),
+                    LaneBlock(40f, WarmupLane.Right),
                     Duck(45f),
-                    LaneBlock(50f, WarmupLane.Right, WarmupActionType.MoveLeft),
+                    LaneBlock(50f, WarmupLane.Left),
                     Boss(56f),
                     Pose(64f, 0)
                 });
@@ -245,15 +260,15 @@ namespace GameYT.Warmup.Editor
                 new[]
                 {
                     Jump(4f),
-                    LaneBlock(8f, WarmupLane.Center, WarmupActionType.MoveLeft),
+                    LaneBlock(8f, WarmupLane.Left),
                     Pose(12f, 0),
                     Duck(16f),
-                    LaneBlock(20f, WarmupLane.Left, WarmupActionType.MoveRight),
+                    LaneBlock(20f, WarmupLane.Right),
                     Jump(24f),
                     Pose(28f, 1),
-                    LaneBlock(32f, WarmupLane.Center, WarmupActionType.MoveRight),
+                    LaneBlock(32f, WarmupLane.Right),
                     Duck(36f),
-                    LaneBlock(40f, WarmupLane.Right, WarmupActionType.MoveLeft),
+                    LaneBlock(40f, WarmupLane.Left),
                     Jump(44f),
                     Pose(48f, 0),
                     Boss(53f),
@@ -304,6 +319,61 @@ namespace GameYT.Warmup.Editor
                 WarmupObstacleCollisionMode.DisableAll);
         }
 
+        private static WarmupObstacleEvent MirrorPose(float time)
+        {
+            WarmupObstacleEvent obstacleEvent = Pose(time, 0);
+            obstacleEvent.PrefabOverride =
+                AssetDatabase.LoadAssetAtPath<GameObject>(
+                    Video0PrefabFolder + "/Mirror.prefab");
+            obstacleEvent.PositionOffset = Vector3.zero;
+            return obstacleEvent;
+        }
+
+        private static Sprite[] LoadDefaultPoseSprites()
+        {
+            UnityEngine.Object[] assets =
+                AssetDatabase.LoadAllAssetRepresentationsAtPath(
+                    DefaultPoseSpriteSheetPath);
+            var sprites = new List<Sprite>(assets.Length);
+
+            for (int i = 0; i < assets.Length; i++)
+            {
+                if (assets[i] is Sprite sprite)
+                {
+                    sprites.Add(sprite);
+                }
+            }
+
+            sprites.Sort(ComparePoseSpriteNames);
+            return sprites.ToArray();
+        }
+
+        private static int ComparePoseSpriteNames(Sprite left, Sprite right)
+        {
+            int indexComparison =
+                GetPoseSpriteIndex(left).CompareTo(
+                    GetPoseSpriteIndex(right));
+            return indexComparison != 0
+                ? indexComparison
+                : string.CompareOrdinal(left.name, right.name);
+        }
+
+        private static int GetPoseSpriteIndex(Sprite sprite)
+        {
+            int separatorIndex = sprite.name.LastIndexOf('_');
+            if (separatorIndex < 0 ||
+                separatorIndex >= sprite.name.Length - 1)
+            {
+                return int.MaxValue;
+            }
+
+            return int.TryParse(
+                sprite.name.Substring(separatorIndex + 1),
+                out int index)
+                ? index
+                : int.MaxValue;
+        }
+
         private static WarmupObstacleEvent Duck(float time)
         {
             return CreateEvent(
@@ -320,15 +390,32 @@ namespace GameYT.Warmup.Editor
 
         private static WarmupObstacleEvent LaneBlock(
             float time,
-            WarmupLane blockedLane,
-            WarmupActionType dodgeAction)
+            WarmupLane spawnSide)
         {
+            WarmupActionType sideAction;
+            string cueLabel;
+            switch (spawnSide)
+            {
+                case WarmupLane.Left:
+                    sideAction = WarmupActionType.MoveLeft;
+                    cueLabel = "LEFT!";
+                    break;
+                case WarmupLane.Right:
+                    sideAction = WarmupActionType.MoveRight;
+                    cueLabel = "RIGHT!";
+                    break;
+                default:
+                    sideAction = WarmupActionType.Run;
+                    cueLabel = "CENTER!";
+                    break;
+            }
+
             return CreateEvent(
                 time,
                 WarmupObstacleType.LaneBlocker,
-                dodgeAction,
-                dodgeAction == WarmupActionType.MoveLeft ? "LEFT!" : "RIGHT!",
-                blockedLane,
+                sideAction,
+                cueLabel,
+                spawnSide,
                 0,
                 new Vector3(0f, 0.9f, 0f),
                 new Vector3(0.28f, 0.6f, 1f),

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6950f4e34ba4ad5499ed1cda3a83fc6f, type: 3}
+  m_Name: Video0
+  m_EditorClassIdentifier: 
+  videoId: Video0
+  jumpPrefabs:
+  - {fileID: 5093284697296935739, guid: 228730ffdb3b08340b5c01ef21dddb37, type: 3}
+  poseWallPrefabs:
+  - {fileID: 1028765022149125029, guid: 308c4d1e35eb8ce4d9d0fed5408f1fa2, type: 3}
+  duckBarrierPrefabs:
+  - {fileID: 836273058556938773, guid: 21568b0709abd0345b4faaab4034fa3b, type: 3}
+  laneBlockerPrefabs:
+  - {fileID: 1665918431025418600, guid: 7d48bb9a81f2c0f47afaa106a591b780, type: 3}
+  bossWallPrefabs: []

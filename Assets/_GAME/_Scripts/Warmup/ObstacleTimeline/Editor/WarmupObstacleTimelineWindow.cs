@@ -18,6 +18,8 @@ namespace GameYT.Warmup.Editor
 
         private static readonly int TimelineControlHint =
             "WarmupObstacleTimeline".GetHashCode();
+        private static readonly string[] SpawnSideOptions =
+            { "Left", "Center", "Right" };
 
         private static readonly Color HeaderColor =
             new Color32(30, 42, 64, 255);
@@ -50,6 +52,7 @@ namespace GameYT.Warmup.Editor
         private bool _dragChanged;
         private float _dragPreviewTime;
         private float _dragStartTime;
+        private float _playheadTime;
         private bool[] _expandedObstacles = Array.Empty<bool>();
         private Vector2 _scrollPosition;
 
@@ -59,6 +62,7 @@ namespace GameYT.Warmup.Editor
         private WarmupObstacleEvent _draggedObstacleReference;
         private SerializedObject _phaseSerializedObject;
         private SerializedObject _playerSerializedObject;
+        private WarmupTimelinePreviewController _previewController;
 
         private int _cachedTooltipIndex = -1;
         private float _cachedTooltipTime = float.MinValue;
@@ -94,6 +98,8 @@ namespace GameYT.Warmup.Editor
         private void OnEnable()
         {
             Undo.undoRedoPerformed += HandleUndoRedo;
+            _previewController?.Dispose();
+            _previewController = new WarmupTimelinePreviewController();
             LoadData(false);
         }
 
@@ -101,10 +107,15 @@ namespace GameYT.Warmup.Editor
         {
             Undo.undoRedoPerformed -= HandleUndoRedo;
             CancelMarkerDrag();
+            _previewController?.Dispose();
+            _previewController = null;
         }
 
         private void OnProjectChange()
         {
+            StopScenePreview(
+                "Preview đã dừng vì asset trong Project thay đổi.",
+                MessageType.Info);
             LoadData(true);
             Repaint();
         }
@@ -113,20 +124,23 @@ namespace GameYT.Warmup.Editor
         {
             EnsureStyles();
             DrawHeader();
-
-            _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
             DrawStepSelector();
 
             if (_phase == null || _playerConfig == null)
             {
+                _scrollPosition =
+                    EditorGUILayout.BeginScrollView(_scrollPosition);
                 DrawMissingData();
                 EditorGUILayout.EndScrollView();
                 return;
             }
 
+            DrawTimelinePreview();
+
+            _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
             DrawOverview();
             DrawQuickSettings();
-            DrawTimelinePreview();
+            DrawPoseSpriteLibrary();
             DrawObstacleEditor();
             DrawValidation();
             DrawActions();
@@ -167,6 +181,9 @@ namespace GameYT.Warmup.Editor
             if (selectedIndex != _selectedStep - 1)
             {
                 CancelMarkerDrag();
+                StopScenePreview(
+                    "Preview đã dừng vì Step thay đổi.",
+                    MessageType.Info);
                 _selectedStep = selectedIndex + 1;
                 _selectedObstacleIndex = -1;
                 _pendingScrollIndex = -1;
@@ -272,6 +289,9 @@ namespace GameYT.Warmup.Editor
 
             if (EditorGUI.EndChangeCheck())
             {
+                StopScenePreview(
+                    "Preview đã dừng vì Timeline settings thay đổi.",
+                    MessageType.Info);
                 bool playerChanged =
                     _playerSerializedObject.ApplyModifiedProperties();
                 bool phaseChanged =
@@ -284,6 +304,10 @@ namespace GameYT.Warmup.Editor
                 if (phaseChanged)
                 {
                     EditorUtility.SetDirty(_phase);
+                    _playheadTime = Mathf.Clamp(
+                        _playheadTime,
+                        0f,
+                        _phase.Duration);
                     ClampSelection();
                 }
             }
@@ -296,8 +320,83 @@ namespace GameYT.Warmup.Editor
             EditorGUILayout.EndVertical();
         }
 
+        private void DrawPoseSpriteLibrary()
+        {
+            if (_phase.StepNumber != 2 || !HasPoseWallEvents())
+            {
+                return;
+            }
+
+            EditorGUILayout.Space(10f);
+            EditorGUILayout.BeginVertical(_panelStyle);
+            EditorGUILayout.LabelField(
+                "MIRROR POSE SPRITE LIST",
+                _sectionTitleStyle);
+            EditorGUILayout.Space(7f);
+
+            _phaseSerializedObject.UpdateIfRequiredOrScript();
+            SerializedProperty poseSprites =
+                _phaseSerializedObject.FindProperty("poseSprites");
+            SerializedProperty poseRandomSeed =
+                _phaseSerializedObject.FindProperty("poseRandomSeed");
+            poseSprites.isExpanded = true;
+
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(
+                poseSprites,
+                new GUIContent(
+                    "Pose Sprites",
+                    "Pose Wall lấy sprite theo đúng thứ tự list."));
+            EditorGUILayout.PropertyField(
+                poseRandomSeed,
+                new GUIContent(
+                    "Overflow Random Seed",
+                    "Đổi seed để reroll các obstacle vượt quá số sprite."));
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                StopScenePreview(
+                    "Preview đã dừng vì Pose Sprite List thay đổi.",
+                    MessageType.Info);
+                if (_phaseSerializedObject.ApplyModifiedProperties())
+                {
+                    EditorUtility.SetDirty(_phase);
+                }
+            }
+
+            EditorGUILayout.Space(4f);
+            EditorGUILayout.HelpBox(
+                "Pose Wall #1 dùng Element 0, #2 dùng Element 1... " +
+                "Khi obstacle nhiều hơn list, sprite được random ổn định theo seed. " +
+                "Pose Override trên từng obstacle vẫn được ưu tiên.",
+                MessageType.Info);
+            EditorGUILayout.EndVertical();
+        }
+
+        private bool HasPoseWallEvents()
+        {
+            for (int i = 0; i < _phase.EventCount; i++)
+            {
+                if (_phase.GetEvent(i).IsPoseWall)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private void DrawTimelinePreview()
         {
+            if (_previewController != null &&
+                _previewController.IsActive)
+            {
+                _previewController.ValidateSources(
+                    _phase,
+                    _playerConfig,
+                    _prefabSet);
+            }
+
             EditorGUILayout.Space(10f);
             EditorGUILayout.BeginVertical(_panelStyle);
 
@@ -306,6 +405,38 @@ namespace GameYT.Warmup.Editor
                 "TIMELINE PREVIEW",
                 _sectionTitleStyle);
             GUILayout.FlexibleSpace();
+
+            using (new EditorGUI.DisabledScope(
+                       _previewController == null ||
+                       _previewController.IsActive))
+            {
+                if (GUILayout.Button(
+                    "Start Preview",
+                    EditorStyles.miniButtonLeft,
+                    GUILayout.Width(96f)))
+                {
+                    StartScenePreview();
+                    GUI.FocusControl(null);
+                }
+            }
+
+            using (new EditorGUI.DisabledScope(
+                       _previewController == null ||
+                       !_previewController.IsActive))
+            {
+                if (GUILayout.Button(
+                    "Stop Preview",
+                    EditorStyles.miniButtonRight,
+                    GUILayout.Width(92f)))
+                {
+                    StopScenePreview(
+                        "Scene Scrub Preview đã dừng.",
+                        MessageType.Info);
+                    GUI.FocusControl(null);
+                }
+            }
+
+            GUILayout.Space(10f);
             _snapEnabled = EditorGUILayout.ToggleLeft(
                 "Snap 0.5s",
                 _snapEnabled,
@@ -313,16 +444,50 @@ namespace GameYT.Warmup.Editor
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.Space(6f);
 
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(
+                "PLAYHEAD",
+                EditorStyles.miniBoldLabel,
+                GUILayout.Width(68f));
+            EditorGUI.BeginChangeCheck();
+            float playheadTime = GUILayout.HorizontalSlider(
+                _playheadTime,
+                0f,
+                Mathf.Max(0.01f, _phase.Duration));
+            if (EditorGUI.EndChangeCheck())
+            {
+                SetPlayheadTime(playheadTime);
+            }
+
+            EditorGUILayout.LabelField(
+                _playheadTime.ToString("0.0") + "s",
+                EditorStyles.miniBoldLabel,
+                GUILayout.Width(48f));
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.Space(4f);
+
             Rect timelineRect =
                 GUILayoutUtility.GetRect(100f, 142f, GUILayout.ExpandWidth(true));
             EditorGUI.DrawRect(timelineRect, TimelineColor);
             DrawTimelineGrid(timelineRect);
             DrawTimelineEvents(timelineRect);
+            DrawTimelinePlayhead(timelineRect);
 
             EditorGUILayout.Space(4f);
             EditorGUILayout.LabelField(
-                "Click marker để chọn. Kéo ngang để đổi Encounter Time; thả chuột sẽ tự sort.",
+                "Click marker để chọn. Kéo ngang để đổi Encounter Time. " +
+                "Ctrl+D: duplicate • Delete: xóa nhanh.",
                 EditorStyles.miniLabel);
+
+            if (_previewController != null &&
+                !string.IsNullOrEmpty(
+                    _previewController.StatusMessage))
+            {
+                EditorGUILayout.HelpBox(
+                    _previewController.StatusMessage,
+                    _previewController.StatusType);
+            }
+
             EditorGUILayout.EndVertical();
         }
 
@@ -347,11 +512,38 @@ namespace GameYT.Warmup.Editor
             }
         }
 
+        private void DrawTimelinePlayhead(Rect rect)
+        {
+            float normalized = Mathf.Clamp01(
+                _playheadTime /
+                Mathf.Max(0.01f, _phase.Duration));
+            float x = Mathf.Lerp(
+                rect.x + TimelineHorizontalPadding,
+                rect.xMax - TimelineHorizontalPadding,
+                normalized);
+            Color playheadColor =
+                _previewController != null &&
+                _previewController.IsActive
+                    ? SuccessColor
+                    : AccentColor;
+
+            EditorGUI.DrawRect(
+                new Rect(
+                    x - 1f,
+                    rect.y + 22f,
+                    2f,
+                    rect.height - 46f),
+                playheadColor);
+            EditorGUI.DrawRect(
+                new Rect(x - 4f, rect.y + 22f, 8f, 5f),
+                playheadColor);
+        }
+
         private void DrawTimelineEvents(Rect rect)
         {
             int controlId = GUIUtility.GetControlID(
                 TimelineControlHint,
-                FocusType.Passive,
+                FocusType.Keyboard,
                 rect);
             Event guiEvent = Event.current;
 
@@ -439,7 +631,8 @@ namespace GameYT.Warmup.Editor
                         return;
                     }
 
-                    SelectObstacle(hitIndex, true);
+                    SelectObstacle(hitIndex, false);
+                    GUIUtility.keyboardControl = controlId;
                     _draggedObstacleIndex = hitIndex;
                     _draggedObstacleReference = _phase.GetEvent(hitIndex);
                     _dragStartTime =
@@ -478,6 +671,7 @@ namespace GameYT.Warmup.Editor
 
                     GUIUtility.hotControl = 0;
                     CommitMarkerDrag();
+                    GUIUtility.keyboardControl = controlId;
                     guiEvent.Use();
                     Repaint();
                     break;
@@ -490,7 +684,18 @@ namespace GameYT.Warmup.Editor
                         CancelMarkerDrag();
                         guiEvent.Use();
                         Repaint();
+                        break;
                     }
+
+                    HandleTimelineKeyDown(controlId, guiEvent);
+                    break;
+
+                case EventType.ValidateCommand:
+                    ValidateTimelineCommand(controlId, guiEvent);
+                    break;
+
+                case EventType.ExecuteCommand:
+                    ExecuteTimelineCommand(controlId, guiEvent);
                     break;
 
                 case EventType.MouseMove:
@@ -500,6 +705,99 @@ namespace GameYT.Warmup.Editor
                     }
                     break;
             }
+        }
+
+        private void HandleTimelineKeyDown(int controlId, Event guiEvent)
+        {
+            if (GUIUtility.keyboardControl != controlId ||
+                GUIUtility.hotControl == controlId ||
+                _selectedObstacleIndex < 0)
+            {
+                return;
+            }
+
+            if (guiEvent.control && guiEvent.keyCode == KeyCode.D)
+            {
+                DuplicateSelectedTimelineMarker(controlId);
+                guiEvent.Use();
+                return;
+            }
+
+            if (guiEvent.keyCode == KeyCode.Delete ||
+                guiEvent.keyCode == KeyCode.Backspace)
+            {
+                DeleteSelectedTimelineMarker(controlId);
+                guiEvent.Use();
+            }
+        }
+
+        private void ValidateTimelineCommand(int controlId, Event guiEvent)
+        {
+            if (GUIUtility.keyboardControl != controlId ||
+                GUIUtility.hotControl == controlId ||
+                _selectedObstacleIndex < 0 ||
+                !IsTimelineEditCommand(guiEvent.commandName))
+            {
+                return;
+            }
+
+            guiEvent.Use();
+        }
+
+        private void ExecuteTimelineCommand(int controlId, Event guiEvent)
+        {
+            if (GUIUtility.keyboardControl != controlId ||
+                GUIUtility.hotControl == controlId ||
+                _selectedObstacleIndex < 0)
+            {
+                return;
+            }
+
+            switch (guiEvent.commandName)
+            {
+                case "Duplicate":
+                    DuplicateSelectedTimelineMarker(controlId);
+                    guiEvent.Use();
+                    break;
+
+                case "Delete":
+                case "SoftDelete":
+                    DeleteSelectedTimelineMarker(controlId);
+                    guiEvent.Use();
+                    break;
+            }
+        }
+
+        private void DuplicateSelectedTimelineMarker(int controlId)
+        {
+            DuplicateObstacle(_selectedObstacleIndex);
+            GUIUtility.keyboardControl = controlId;
+            if (_selectedObstacleIndex >= 0 &&
+                _selectedObstacleIndex < _phase.EventCount)
+            {
+                SetPlayheadTime(
+                    _phase.GetEvent(_selectedObstacleIndex).EncounterTime);
+            }
+        }
+
+        private void DeleteSelectedTimelineMarker(int controlId)
+        {
+            RemoveObstacle(_selectedObstacleIndex);
+            GUIUtility.keyboardControl =
+                _phase.EventCount > 0 ? controlId : 0;
+            if (_selectedObstacleIndex >= 0 &&
+                _selectedObstacleIndex < _phase.EventCount)
+            {
+                SetPlayheadTime(
+                    _phase.GetEvent(_selectedObstacleIndex).EncounterTime);
+            }
+        }
+
+        private static bool IsTimelineEditCommand(string commandName)
+        {
+            return commandName == "Duplicate" ||
+                   commandName == "Delete" ||
+                   commandName == "SoftDelete";
         }
 
         private int FindMarkerAtPosition(Rect timelineRect, Vector2 mousePosition)
@@ -634,9 +932,21 @@ namespace GameYT.Warmup.Editor
                 draggedIndex < 0 ||
                 draggedIndex >= _phase.EventCount)
             {
+                if (!changed &&
+                    draggedIndex >= 0 &&
+                    draggedIndex < _phase.EventCount)
+                {
+                    SelectObstacle(draggedIndex, true);
+                    SetPlayheadTime(
+                        _phase.GetEvent(draggedIndex).EncounterTime);
+                }
+
                 return;
             }
 
+            StopScenePreview(
+                "Preview đã dừng vì Encounter Time thay đổi.",
+                MessageType.Info);
             Undo.RegisterCompleteObjectUndo(
                 _phase,
                 "Move Obstacle Marker");
@@ -659,7 +969,7 @@ namespace GameYT.Warmup.Editor
                 selectedIndex = FindClosestEventIndex(targetTime);
             }
 
-            SelectObstacle(selectedIndex, true);
+            SelectObstacle(selectedIndex, false);
             InvalidateTooltipCache();
         }
 
@@ -718,6 +1028,9 @@ namespace GameYT.Warmup.Editor
 
             if (EditorGUI.EndChangeCheck())
             {
+                StopScenePreview(
+                    "Preview đã dừng vì obstacle data thay đổi.",
+                    MessageType.Info);
                 bool changed =
                     _phaseSerializedObject.ApplyModifiedProperties();
                 if (changed)
@@ -984,6 +1297,17 @@ namespace GameYT.Warmup.Editor
         {
             EditorGUILayout.Space(7f);
 
+            WarmupObstacleType obstacleType =
+                (WarmupObstacleType)typeProperty.intValue;
+            SerializedProperty laneProperty =
+                obstacleProperty.FindPropertyRelative("Lane");
+            SerializedProperty actionProperty =
+                obstacleProperty.FindPropertyRelative("Action");
+            SerializedProperty cueLabelProperty =
+                obstacleProperty.FindPropertyRelative("CueLabel");
+            bool usesSpawnSide =
+                obstacleType == WarmupObstacleType.LaneBlocker;
+
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(
                 obstacleProperty.FindPropertyRelative("EncounterTime"),
@@ -991,17 +1315,30 @@ namespace GameYT.Warmup.Editor
             EditorGUILayout.PropertyField(
                 typeProperty,
                 new GUIContent("Type"));
-            EditorGUILayout.PropertyField(
-                obstacleProperty.FindPropertyRelative("Lane"),
-                new GUIContent("Lane"));
+            if (usesSpawnSide)
+            {
+                DrawSpawnSideField(
+                    laneProperty,
+                    actionProperty,
+                    cueLabelProperty);
+            }
+            else
+            {
+                EditorGUILayout.PropertyField(
+                    laneProperty,
+                    new GUIContent("Lane"));
+            }
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.BeginHorizontal();
+            if (!usesSpawnSide)
+            {
+                EditorGUILayout.PropertyField(
+                    actionProperty,
+                    new GUIContent("Required Action"));
+            }
             EditorGUILayout.PropertyField(
-                obstacleProperty.FindPropertyRelative("Action"),
-                new GUIContent("Required Action"));
-            EditorGUILayout.PropertyField(
-                obstacleProperty.FindPropertyRelative("CueLabel"),
+                cueLabelProperty,
                 new GUIContent("HUD / Cue Label"));
             EditorGUILayout.PropertyField(
                 obstacleProperty.FindPropertyRelative("CueLeadTime"),
@@ -1017,6 +1354,15 @@ namespace GameYT.Warmup.Editor
                 new GUIContent("Prefab Override"));
             EditorGUILayout.EndHorizontal();
 
+            if (obstacleType == WarmupObstacleType.PoseWall)
+            {
+                EditorGUILayout.PropertyField(
+                    obstacleProperty.FindPropertyRelative("PoseSprite"),
+                    new GUIContent(
+                        "Mirror Human Pose Override",
+                        "Override riêng cho mốc này. None = lấy theo Pose Sprite List."));
+            }
+
             EditorGUILayout.PropertyField(
                 obstacleProperty.FindPropertyRelative("PositionOffset"),
                 new GUIContent("Position Offset"));
@@ -1030,8 +1376,7 @@ namespace GameYT.Warmup.Editor
                 obstacleProperty.FindPropertyRelative("CollisionMode"),
                 new GUIContent("Collision Mode"));
 
-            if ((WarmupObstacleType)typeProperty.intValue ==
-                WarmupObstacleType.BossWall)
+            if (obstacleType == WarmupObstacleType.BossWall)
             {
                 EditorGUILayout.Space(3f);
                 EditorGUILayout.BeginHorizontal();
@@ -1043,6 +1388,123 @@ namespace GameYT.Warmup.Editor
                     new GUIContent("Boss Stop Distance"));
                 EditorGUILayout.EndHorizontal();
             }
+        }
+
+        private static void DrawSpawnSideField(
+            SerializedProperty laneProperty,
+            SerializedProperty actionProperty,
+            SerializedProperty cueLabelProperty)
+        {
+            WarmupLane currentLane = (WarmupLane)laneProperty.intValue;
+            int selectedIndex;
+
+            switch (currentLane)
+            {
+                case WarmupLane.Left:
+                    selectedIndex = 0;
+                    break;
+                case WarmupLane.Center:
+                    selectedIndex = 1;
+                    break;
+                case WarmupLane.Right:
+                    selectedIndex = 2;
+                    break;
+                default:
+                    selectedIndex = 1;
+                    ApplySpawnSide(
+                        selectedIndex,
+                        laneProperty,
+                        actionProperty,
+                        cueLabelProperty);
+                    GUI.changed = true;
+                    break;
+            }
+
+            EditorGUI.BeginChangeCheck();
+            selectedIndex = EditorGUILayout.Popup(
+                new GUIContent(
+                    "Spawn Side",
+                    "Left/Center/Right tính theo hướng nhìn của Player."),
+                selectedIndex,
+                SpawnSideOptions);
+            if (EditorGUI.EndChangeCheck())
+            {
+                ApplySpawnSide(
+                    selectedIndex,
+                    laneProperty,
+                    actionProperty,
+                    cueLabelProperty);
+            }
+            else
+            {
+                SynchronizeSpawnSideData(
+                    selectedIndex,
+                    laneProperty,
+                    actionProperty,
+                    cueLabelProperty);
+            }
+        }
+
+        private static void ApplySpawnSide(
+            int selectedIndex,
+            SerializedProperty laneProperty,
+            SerializedProperty actionProperty,
+            SerializedProperty cueLabelProperty)
+        {
+            switch (selectedIndex)
+            {
+                case 0:
+                    laneProperty.intValue = (int)WarmupLane.Left;
+                    actionProperty.intValue =
+                        (int)WarmupActionType.MoveLeft;
+                    cueLabelProperty.stringValue = "LEFT!";
+                    break;
+
+                case 2:
+                    laneProperty.intValue = (int)WarmupLane.Right;
+                    actionProperty.intValue =
+                        (int)WarmupActionType.MoveRight;
+                    cueLabelProperty.stringValue = "RIGHT!";
+                    break;
+
+                default:
+                    laneProperty.intValue = (int)WarmupLane.Center;
+                    actionProperty.intValue = (int)WarmupActionType.Run;
+                    cueLabelProperty.stringValue = "CENTER!";
+                    break;
+            }
+        }
+
+        private static void SynchronizeSpawnSideData(
+            int selectedIndex,
+            SerializedProperty laneProperty,
+            SerializedProperty actionProperty,
+            SerializedProperty cueLabelProperty)
+        {
+            int expectedAction;
+            switch (selectedIndex)
+            {
+                case 0:
+                    expectedAction = (int)WarmupActionType.MoveLeft;
+                    break;
+                case 2:
+                    expectedAction = (int)WarmupActionType.MoveRight;
+                    break;
+                default:
+                    expectedAction = (int)WarmupActionType.Run;
+                    break;
+            }
+            if (actionProperty.intValue == expectedAction)
+            {
+                return;
+            }
+
+            ApplySpawnSide(
+                selectedIndex,
+                laneProperty,
+                actionProperty,
+                cueLabelProperty);
+            GUI.changed = true;
         }
 
         private void DrawObstacleCardActions(int index)
@@ -1108,6 +1570,9 @@ namespace GameYT.Warmup.Editor
 
         private void AddObstacle()
         {
+            StopScenePreview(
+                "Preview đã dừng vì Timeline thay đổi.",
+                MessageType.Info);
             Undo.RegisterCompleteObjectUndo(_phase, "Add Obstacle");
             _phaseSerializedObject.Update();
             SerializedProperty eventsProperty =
@@ -1169,6 +1634,8 @@ namespace GameYT.Warmup.Editor
                 0;
             obstacleProperty.FindPropertyRelative("PrefabOverride")
                 .objectReferenceValue = null;
+            obstacleProperty.FindPropertyRelative("PoseSprite")
+                .objectReferenceValue = null;
             obstacleProperty.FindPropertyRelative("PositionOffset")
                 .vector3Value = Vector3.zero;
             obstacleProperty.FindPropertyRelative("RotationOffset")
@@ -1190,6 +1657,9 @@ namespace GameYT.Warmup.Editor
                 return;
             }
 
+            StopScenePreview(
+                "Preview đã dừng vì Timeline thay đổi.",
+                MessageType.Info);
             Undo.RegisterCompleteObjectUndo(_phase, "Duplicate Obstacle");
             _phaseSerializedObject.Update();
             SerializedProperty eventsProperty =
@@ -1222,9 +1692,18 @@ namespace GameYT.Warmup.Editor
             EditorUtility.SetDirty(_phase);
             _phaseSerializedObject.Update();
 
-            int selectedIndex = FindClosestEventIndex(
-                duplicatedTime,
-                duplicatedType);
+            WarmupObstacleEvent duplicatedReference =
+                duplicatedIndex < _phase.EventCount
+                    ? _phase.GetEvent(duplicatedIndex)
+                    : null;
+            int selectedIndex = FindEventIndex(duplicatedReference);
+            if (selectedIndex < 0)
+            {
+                selectedIndex = FindClosestEventIndex(
+                    duplicatedTime,
+                    duplicatedType);
+            }
+
             SelectObstacle(selectedIndex, true);
             InvalidateTooltipCache();
         }
@@ -1258,6 +1737,7 @@ namespace GameYT.Warmup.Editor
         {
             return obstacleEvent.PrefabOverride != null ||
                    obstacleEvent.PrefabVariation != 0 ||
+                   obstacleEvent.PoseSprite != null ||
                    obstacleEvent.PositionOffset != Vector3.zero ||
                    obstacleEvent.RotationOffset != Vector3.zero ||
                    obstacleEvent.ScaleMultiplier != Vector3.one ||
@@ -1273,6 +1753,9 @@ namespace GameYT.Warmup.Editor
                 return;
             }
 
+            StopScenePreview(
+                "Preview đã dừng vì Timeline thay đổi.",
+                MessageType.Info);
             Undo.RegisterCompleteObjectUndo(_phase, "Remove Obstacle");
             _phaseSerializedObject.Update();
             SerializedProperty eventsProperty =
@@ -1299,6 +1782,9 @@ namespace GameYT.Warmup.Editor
                 return;
             }
 
+            StopScenePreview(
+                "Preview đã dừng vì Timeline thay đổi.",
+                MessageType.Info);
             WarmupObstacleEvent selectedReference =
                 _phase.GetEvent(index);
             Undo.RegisterCompleteObjectUndo(
@@ -1347,6 +1833,9 @@ namespace GameYT.Warmup.Editor
                 return;
             }
 
+            StopScenePreview(
+                "Preview đã dừng vì Timeline được sort.",
+                MessageType.Info);
             Undo.RegisterCompleteObjectUndo(
                 _phase,
                 "Sort Obstacles By Time");
@@ -1722,9 +2211,7 @@ namespace GameYT.Warmup.Editor
             }
 
             return _prefabSet != null &&
-                   _prefabSet.GetPrefab(
-                       obstacleEvent.Type,
-                       obstacleEvent.PrefabVariation) != null;
+                   _prefabSet.HasPrefab(obstacleEvent.Type);
         }
 
         private void DrawValidationIssue(string message, int obstacleIndex)
@@ -1775,6 +2262,9 @@ namespace GameYT.Warmup.Editor
                 }
                 else
                 {
+                    StopScenePreview(
+                        "Preview đã dừng trước khi Apply Step.",
+                        MessageType.Info);
                     SavePendingChanges();
                     WarmupObstacleTimelineSetup.ApplyStepToScene(
                         _selectedStep);
@@ -1801,6 +2291,9 @@ namespace GameYT.Warmup.Editor
                 "OPEN WARMUP SCENE",
                 GUILayout.Height(30f)))
             {
+                StopScenePreview(
+                    "Preview đã dừng trước khi mở WarmUp scene.",
+                    MessageType.Info);
                 SavePendingChanges();
                 EditorSceneManager.OpenScene(
                     "Assets/_GAME/_Scenes/WarnUp.unity",
@@ -1826,6 +2319,9 @@ namespace GameYT.Warmup.Editor
                     "Hủy");
                 if (confirmed)
                 {
+                    StopScenePreview(
+                        "Preview đã dừng trước khi rebuild template.",
+                        MessageType.Info);
                     WarmupObstacleTimelineSetup.BuildVideo0Demo();
                     LoadData(false);
                 }
@@ -1902,6 +2398,13 @@ namespace GameYT.Warmup.Editor
 
             bool canPreserve =
                 preserveSelection && previousPhase == _phase;
+            _playheadTime =
+                previousPhase == _phase && _phase != null
+                    ? Mathf.Clamp(
+                        _playheadTime,
+                        0f,
+                        _phase.Duration)
+                    : 0f;
             _selectedObstacleIndex =
                 canPreserve ? previousSelection : -1;
             EnsureExpandedState(
@@ -1909,6 +2412,68 @@ namespace GameYT.Warmup.Editor
                 canPreserve);
             ClampSelection();
             InvalidateTooltipCache();
+        }
+
+        private void StartScenePreview()
+        {
+            if (_previewController == null)
+            {
+                _previewController =
+                    new WarmupTimelinePreviewController();
+            }
+
+            _playheadTime = Mathf.Clamp(
+                _playheadTime,
+                0f,
+                _phase.Duration);
+            if (_previewController.StartPreview(
+                    _phase,
+                    _playerConfig,
+                    _prefabSet,
+                    _playheadTime))
+            {
+                _playheadTime = _previewController.CurrentTime;
+            }
+
+            Repaint();
+        }
+
+        private void StopScenePreview(
+            string message,
+            MessageType messageType)
+        {
+            if (_previewController == null ||
+                !_previewController.IsActive)
+            {
+                return;
+            }
+
+            _previewController.StopPreview(message, messageType);
+            Repaint();
+        }
+
+        private void SetPlayheadTime(float time)
+        {
+            float clampedTime = Mathf.Clamp(
+                time,
+                0f,
+                _phase != null ? _phase.Duration : 0f);
+            bool changed =
+                !Mathf.Approximately(
+                    _playheadTime,
+                    clampedTime);
+            _playheadTime = clampedTime;
+
+            if (_previewController != null &&
+                _previewController.IsActive)
+            {
+                _previewController.SetTime(_playheadTime);
+            }
+
+            if (changed)
+            {
+                Repaint();
+            }
         }
 
         private void SavePendingChanges()
@@ -1931,6 +2496,9 @@ namespace GameYT.Warmup.Editor
         private void HandleUndoRedo()
         {
             CancelMarkerDrag();
+            StopScenePreview(
+                "Preview đã dừng vì Undo/Redo thay đổi dữ liệu.",
+                MessageType.Info);
             if (_phaseSerializedObject != null)
             {
                 _phaseSerializedObject.Update();
