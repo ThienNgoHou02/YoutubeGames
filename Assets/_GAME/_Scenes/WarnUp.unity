@@ -1220,7 +1220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e9ca3dcb53e034bafa20034a678db4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  phase: {fileID: 11400000, guid: ef27b978ec33bb14eaaa9e256128eec0, type: 2}
+  phase: {fileID: 11400000, guid: 84066744798d2044c921745ebfc8a4d2, type: 2}
   prefabSet: {fileID: 11400000, guid: 783f59feae62d7d4296c1d4b175ccccc, type: 2}
   player: {fileID: 8487256990385928500}
   obstacleRoot: {fileID: 1079254519}
