@@ -226,6 +226,8 @@ namespace GameYT.Warmup.Editor
                     GetOrAddComponent<WarmupPunchInteractor>(root);
                 WarmupPlayerController player =
                     GetOrAddComponent<WarmupPlayerController>(root);
+                WarmupPlayerSfx playerSfx =
+                    GetOrAddComponent<WarmupPlayerSfx>(root);
 
                 Transform cameraPivot = GetOrCreateChild(root.transform, "Camera Pivot");
                 cameraPivot.localPosition =
@@ -280,6 +282,7 @@ namespace GameYT.Warmup.Editor
 
                 punch.SetupComponents(punchOrigin, config);
                 player.SetupComponents(config, input, punch, cameraPivot);
+                playerSfx.SetupComponents(player);
 
                 WarmupHeadCameraMotion cameraMotion =
                     GetOrAddComponent<WarmupHeadCameraMotion>(

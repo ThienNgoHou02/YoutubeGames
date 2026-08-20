@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43c2811e40b048a5a6abe76788756361, type: 3}
+  m_Name: Bo1ActionIconSet
+  m_EditorClassIdentifier: 
+  jump: {fileID: 21300000, guid: ccab851490aa07743be5c212aac73db6, type: 3}
+  duck: {fileID: 21300000, guid: 88ecd438eb3188946af31d9f56181d73, type: 3}
+  punch: {fileID: 21300000, guid: 4b852d36b4f2e59418bcf4e8ec225a8b, type: 3}
+  mirrorMe: {fileID: 21300000, guid: 83505ab7ebeb122489be6660e663e081, type: 3}
+  dodgeLeft: {fileID: 21300000, guid: a065a2f232a912b4fa6cbfe14a26b9fb, type: 3}
+  dodgeRight: {fileID: 21300000, guid: f0dd6e9b4e209fb4f9273f5a20eee068, type: 3}

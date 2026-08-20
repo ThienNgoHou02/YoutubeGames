@@ -202,9 +202,13 @@ Obstacle Distance = 130 m
 - `HUD Label`: label hướng dẫn như `JUMP!`, `LEFT!`, `DUCK!`.
 - `Show Before`: cue xuất hiện trước obstacle bao nhiêu giây.
 
-Director phát dữ liệu này qua event `CueStarted`. `Warmup HUD` hiện tại chỉ
-hiển thị mét, phase progress và boss HP; nó không vẽ action label. Có thể nối
-một presenter riêng vào `CueStarted` nếu video cần overlay hướng dẫn.
+Director phát dữ liệu này qua event `CueStarted`. `WarmupActionCuePresenter`
+trên `Warmup HUD` lấy icon từ `Bo1ActionIconSet` và tự hiện icon trước thời
+điểm encounter đúng bằng `Show Before`.
+
+Icon lách trái/phải là tùy chọn. Tick `Hiện icon lách trái / phải` trên
+`WarmupActionCuePresenter` nếu video cần hiện hai cue này; mặc định checkbox
+được tắt. Jump, Duck, Punch và Mirror Me luôn hiện khi timeline phát cue.
 
 ### Prefab Source
 
@@ -265,7 +269,12 @@ Warmup HUD
 ├── Slider          Phase progress
 ├── KilometRun      Mét chạy mô phỏng
 ├── SliderHp        Boss HP
-└── WarmupGameplayHud
+├── Viewer Action Cue
+│   ├── RectTransform để chỉnh vị trí/kích thước trực tiếp
+│   ├── CanvasGroup
+│   └── Image
+├── WarmupGameplayHud
+└── WarmupActionCuePresenter
 ```
 
 `WarmupGameplayHud` cần các reference:
@@ -286,6 +295,8 @@ Runtime:
 - `SliderHp` chỉ bật khi gặp Boss Wall.
 - Mỗi cú đấm làm giảm một HP.
 - Khi boss vỡ, `SliderHp` tự tắt.
+- Icon hành động hiện ở giữa phía trên và tự ẩn khi tới obstacle.
+- Lách trái/phải chỉ hiện khi bật checkbox tùy chọn trên presenter.
 
 ## 9. Setup VFX đấm boss
 
@@ -328,7 +339,8 @@ J              Punch
 - Punch VFX không che toàn màn hình.
 - `KilometRun` bắt đầu từ `0 m`.
 - Phase Slider đầy đúng lúc kết thúc.
-- Không có `WarmupCuePresenter` trên `Warmup HUD`.
+- Không có `WarmupCuePresenter` cũ trên `Warmup HUD`.
+- `WarmupActionCuePresenter` có `Bo1ActionIconSet` và mặc định tắt cue lách lane.
 - Console không có NullReference hoặc MissingReference.
 
 ## 12. Lỗi thường gặp

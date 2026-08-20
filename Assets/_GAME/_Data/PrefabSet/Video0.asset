@@ -21,4 +21,7 @@ MonoBehaviour:
   - {fileID: 836273058556938773, guid: 21568b0709abd0345b4faaab4034fa3b, type: 3}
   laneBlockerPrefabs:
   - {fileID: 1665918431025418600, guid: 7d48bb9a81f2c0f47afaa106a591b780, type: 3}
-  bossWallPrefabs: []
+  bossWallPrefabs:
+  - {fileID: 2208740876003612711, guid: 629f2fdeb5affdb4387c3cee7d037b12, type: 3}
+  coinPrefabs:
+  - {fileID: 1665918431025418600, guid: 7d48bb9a81f2c0f47afaa106a591b780, type: 3}

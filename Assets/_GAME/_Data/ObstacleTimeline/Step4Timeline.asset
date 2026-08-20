@@ -30,6 +30,7 @@ MonoBehaviour:
     Action: 3
     CueLabel: JUMP!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -45,6 +46,7 @@ MonoBehaviour:
     Action: 6
     CueLabel: POSE!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -60,6 +62,7 @@ MonoBehaviour:
     Action: 3
     CueLabel: JUMP!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -70,11 +73,12 @@ MonoBehaviour:
     BossHitPoints: 4
     BossStopDistance: 1.6
   - EncounterTime: 15
-    Type: 3
+    Type: 5
     Lane: -1
     Action: 1
     CueLabel: LEFT!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 1
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -85,13 +89,14 @@ MonoBehaviour:
     BossHitPoints: 4
     BossStopDistance: 1.6
   - EncounterTime: 15.5
-    Type: 3
+    Type: 5
     Lane: -1
     Action: 1
     CueLabel: LEFT!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 0
-    PrefabOverride: {fileID: 0}
+    PrefabOverride: {fileID: 1665918431025418600, guid: 7d48bb9a81f2c0f47afaa106a591b780, type: 3}
     PoseSprite: {fileID: 0}
     PositionOffset: {x: 0, y: 0.9, z: 0}
     RotationOffset: {x: 0, y: 0, z: 0}
@@ -100,11 +105,12 @@ MonoBehaviour:
     BossHitPoints: 4
     BossStopDistance: 1.6
   - EncounterTime: 16
-    Type: 3
+    Type: 5
     Lane: -1
     Action: 1
     CueLabel: LEFT!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -115,11 +121,12 @@ MonoBehaviour:
     BossHitPoints: 4
     BossStopDistance: 1.6
   - EncounterTime: 16.5
-    Type: 3
+    Type: 5
     Lane: -1
     Action: 1
     CueLabel: LEFT!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -130,11 +137,12 @@ MonoBehaviour:
     BossHitPoints: 4
     BossStopDistance: 1.6
   - EncounterTime: 17
-    Type: 3
+    Type: 5
     Lane: -1
     Action: 1
     CueLabel: LEFT!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -150,6 +158,7 @@ MonoBehaviour:
     Action: 3
     CueLabel: JUMP!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -160,11 +169,12 @@ MonoBehaviour:
     BossHitPoints: 4
     BossStopDistance: 1.6
   - EncounterTime: 22
-    Type: 3
+    Type: 5
     Lane: 0
     Action: 0
     CueLabel: CENTER!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 1
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -180,6 +190,7 @@ MonoBehaviour:
     Action: 4
     CueLabel: DUCK!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -195,6 +206,7 @@ MonoBehaviour:
     Action: 3
     CueLabel: JUMP!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -210,6 +222,7 @@ MonoBehaviour:
     Action: 6
     CueLabel: POSE!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 1
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -220,11 +233,12 @@ MonoBehaviour:
     BossHitPoints: 4
     BossStopDistance: 1.6
   - EncounterTime: 35
-    Type: 3
+    Type: 5
     Lane: 1
     Action: 2
     CueLabel: RIGHT!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 1
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -235,11 +249,12 @@ MonoBehaviour:
     BossHitPoints: 4
     BossStopDistance: 1.6
   - EncounterTime: 35.5
-    Type: 3
+    Type: 5
     Lane: 1
     Action: 2
     CueLabel: RIGHT!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -250,11 +265,12 @@ MonoBehaviour:
     BossHitPoints: 4
     BossStopDistance: 1.6
   - EncounterTime: 36
-    Type: 3
+    Type: 5
     Lane: 1
     Action: 2
     CueLabel: RIGHT!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -265,11 +281,12 @@ MonoBehaviour:
     BossHitPoints: 4
     BossStopDistance: 1.6
   - EncounterTime: 36.5
-    Type: 3
+    Type: 5
     Lane: 1
     Action: 2
     CueLabel: RIGHT!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -280,11 +297,12 @@ MonoBehaviour:
     BossHitPoints: 4
     BossStopDistance: 1.6
   - EncounterTime: 39
-    Type: 3
+    Type: 5
     Lane: 0
     Action: 0
     CueLabel: CENTER!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 1
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -300,6 +318,7 @@ MonoBehaviour:
     Action: 3
     CueLabel: JUMP!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -315,6 +334,7 @@ MonoBehaviour:
     Action: 3
     CueLabel: JUMP!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -330,6 +350,7 @@ MonoBehaviour:
     Action: 6
     CueLabel: POSE!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 1
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -345,6 +366,7 @@ MonoBehaviour:
     Action: 4
     CueLabel: DUCK!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -360,6 +382,7 @@ MonoBehaviour:
     Action: 6
     CueLabel: POSE!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}
@@ -375,6 +398,7 @@ MonoBehaviour:
     Action: 3
     CueLabel: JUMP!
     CueLeadTime: 1.4
+    ShowViewerActionCue: 0
     PrefabVariation: 0
     PrefabOverride: {fileID: 0}
     PoseSprite: {fileID: 0}

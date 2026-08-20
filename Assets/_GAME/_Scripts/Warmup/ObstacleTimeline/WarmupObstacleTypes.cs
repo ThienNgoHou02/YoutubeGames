@@ -10,7 +10,9 @@ namespace GameYT.Warmup
         PoseWall = 1,
         DuckBarrier = 2,
         LaneBlocker = 3,
-        BossWall = 4
+        BossWall = 4,
+        [InspectorName("Coin / Reward Item")]
+        Coin = 5
     }
 
     public enum WarmupLane
@@ -59,6 +61,12 @@ namespace GameYT.Warmup
         [SuffixLabel("sec before obstacle", Overlay = true)]
         [LabelText("Show Before")]
         public float CueLeadTime = 1.4f;
+
+        [BoxGroup("Viewer Cue")]
+        [ShowIf(nameof(IsCoin))]
+        [LabelText("Show Viewer Action Cue")]
+        [Tooltip("Chỉ Coin mới dùng tùy chọn này. Các type khác luôn hiện cue.")]
+        public bool ShowViewerActionCue;
 
         [BoxGroup("Prefab Source")]
         [HorizontalGroup("Prefab Source/Selection")]
@@ -109,6 +117,7 @@ namespace GameYT.Warmup
 
         public bool IsBossWall => Type == WarmupObstacleType.BossWall;
         public bool IsPoseWall => Type == WarmupObstacleType.PoseWall;
+        public bool IsCoin => Type == WarmupObstacleType.Coin;
 
         public string InspectorLabel
         {

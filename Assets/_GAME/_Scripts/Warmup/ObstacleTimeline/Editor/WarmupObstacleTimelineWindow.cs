@@ -1107,6 +1107,7 @@ namespace GameYT.Warmup.Editor
             int duckCount = 0;
             int laneCount = 0;
             int bossCount = 0;
+            int coinCount = 0;
 
             for (int i = 0; i < _phase.EventCount; i++)
             {
@@ -1127,6 +1128,9 @@ namespace GameYT.Warmup.Editor
                     case WarmupObstacleType.BossWall:
                         bossCount++;
                         break;
+                    case WarmupObstacleType.Coin:
+                        coinCount++;
+                        break;
                 }
             }
 
@@ -1136,6 +1140,7 @@ namespace GameYT.Warmup.Editor
             DrawSummaryItem("Duck", duckCount, GetEventColor(WarmupObstacleType.DuckBarrier));
             DrawSummaryItem("Lane", laneCount, GetEventColor(WarmupObstacleType.LaneBlocker));
             DrawSummaryItem("Boss", bossCount, GetEventColor(WarmupObstacleType.BossWall));
+            DrawSummaryItem("Coin", coinCount, GetEventColor(WarmupObstacleType.Coin));
             EditorGUILayout.EndHorizontal();
         }
 
@@ -1306,7 +1311,8 @@ namespace GameYT.Warmup.Editor
             SerializedProperty cueLabelProperty =
                 obstacleProperty.FindPropertyRelative("CueLabel");
             bool usesSpawnSide =
-                obstacleType == WarmupObstacleType.LaneBlocker;
+                obstacleType == WarmupObstacleType.LaneBlocker ||
+                obstacleType == WarmupObstacleType.Coin;
 
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PropertyField(
@@ -1329,6 +1335,15 @@ namespace GameYT.Warmup.Editor
                     new GUIContent("Lane"));
             }
             EditorGUILayout.EndHorizontal();
+
+            if (obstacleType == WarmupObstacleType.Coin)
+            {
+                EditorGUILayout.PropertyField(
+                    obstacleProperty.FindPropertyRelative("ShowViewerActionCue"),
+                    new GUIContent(
+                        "Show Viewer Action Cue",
+                        "Chỉ Coin dùng checkbox này. Các type khác luôn hiện cue."));
+            }
 
             EditorGUILayout.BeginHorizontal();
             if (!usesSpawnSide)
@@ -1630,6 +1645,8 @@ namespace GameYT.Warmup.Editor
                 "JUMP!";
             obstacleProperty.FindPropertyRelative("CueLeadTime").floatValue =
                 1.4f;
+            obstacleProperty.FindPropertyRelative("ShowViewerActionCue")
+                .boolValue = false;
             obstacleProperty.FindPropertyRelative("PrefabVariation").intValue =
                 0;
             obstacleProperty.FindPropertyRelative("PrefabOverride")
@@ -2580,6 +2597,8 @@ namespace GameYT.Warmup.Editor
                     return "Lane Blocker";
                 case WarmupObstacleType.BossWall:
                     return "Boss";
+                case WarmupObstacleType.Coin:
+                    return "Coin / Reward Item";
                 default:
                     return type.ToString();
             }
@@ -2599,6 +2618,8 @@ namespace GameYT.Warmup.Editor
                     return new Color32(255, 180, 72, 255);
                 case WarmupObstacleType.BossWall:
                     return new Color32(255, 82, 95, 255);
+                case WarmupObstacleType.Coin:
+                    return new Color32(255, 218, 64, 255);
                 default:
                     return Color.white;
             }

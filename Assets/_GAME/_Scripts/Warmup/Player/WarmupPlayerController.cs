@@ -141,17 +141,22 @@ namespace GameYT.Warmup
                     break;
 
                 case WarmupActionType.Jump:
-                    TryJump();
+                    if (!TryJump())
+                    {
+                        return;
+                    }
                     break;
 
                 case WarmupActionType.Duck:
                     break;
 
                 case WarmupActionType.Punch:
-                    if (!punchInteractor.IsOnCooldown)
+                    if (punchInteractor == null || punchInteractor.IsOnCooldown)
                     {
-                        punchInteractor.TryPunch();
+                        return;
                     }
+
+                    punchInteractor.TryPunch();
                     break;
             }
 
@@ -182,16 +187,17 @@ namespace GameYT.Warmup
             return true;
         }
 
-        private void TryJump()
+        private bool TryJump()
         {
             if (!_characterController.isGrounded)
             {
-                return;
+                return false;
             }
 
             _verticalVelocity = Mathf.Sqrt(
                 config.JumpHeight * -2f * config.Gravity);
             JumpStarted?.Invoke();
+            return true;
         }
 
         private void HandleDuckStateChanged(bool isHeld)

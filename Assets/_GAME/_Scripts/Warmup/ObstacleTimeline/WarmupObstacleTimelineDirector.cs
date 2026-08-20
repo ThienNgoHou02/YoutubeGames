@@ -61,6 +61,7 @@ namespace GameYT.Warmup
             public WarmupObstacleEvent Data;
             public GameObject Instance;
             public WarmupBossWall BossWall;
+            public WarmupCoinItem RootCoin;
         }
 
         private readonly List<RuntimeObstacle> _runtimeObstacles =
@@ -298,11 +299,18 @@ namespace GameYT.Warmup
                         bossShardMaterial);
                 }
 
+                WarmupCoinItem rootCoin = null;
+                if (obstacleEvent.Type == WarmupObstacleType.Coin)
+                {
+                    rootCoin = ConfigureCoinItems(instance);
+                }
+
                 _runtimeObstacles.Add(new RuntimeObstacle
                 {
                     Data = obstacleEvent,
                     Instance = instance,
-                    BossWall = bossWall
+                    BossWall = bossWall,
+                    RootCoin = rootCoin
                 });
                 instance.SetActive(false);
             }
@@ -449,6 +457,11 @@ namespace GameYT.Warmup
                         runtime.BossWall != null &&
                         runtime.BossWall.IsFightActive);
 
+                if (runtime.RootCoin != null && runtime.RootCoin.IsCollected)
+                {
+                    shouldBeVisible = false;
+                }
+
                 if (runtime.Instance.activeSelf != shouldBeVisible)
                 {
                     runtime.Instance.SetActive(shouldBeVisible);
@@ -554,6 +567,39 @@ namespace GameYT.Warmup
                     colliders[i].isTrigger = true;
                 }
             }
+        }
+
+        private WarmupCoinItem ConfigureCoinItems(GameObject instance)
+        {
+            WarmupPlayerSfx playerSfx =
+                player != null ? player.GetComponent<WarmupPlayerSfx>() : null;
+            Collider[] colliders = instance.GetComponentsInChildren<Collider>(true);
+            WarmupCoinItem rootCoin = null;
+
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                GameObject itemObject = colliders[i].gameObject;
+                WarmupCoinItem coin = itemObject.GetComponent<WarmupCoinItem>();
+                if (coin == null)
+                {
+                    coin = itemObject.AddComponent<WarmupCoinItem>();
+                }
+
+                coin.ConfigureRuntime(playerSfx);
+                if (itemObject == instance)
+                {
+                    rootCoin = coin;
+                }
+            }
+
+            if (colliders.Length == 0)
+            {
+                Debug.LogWarning(
+                    "Coin prefab thiếu Collider nên Player không thể nhặt.",
+                    instance);
+            }
+
+            return rootCoin;
         }
 
 #if UNITY_EDITOR

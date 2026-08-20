@@ -27,7 +27,16 @@ WarmupSequenceAsset
     -> WarmupSequenceDirector
         -> WarmupCuePresenter
         -> Player speed / action feedback
+
+WarmupPhaseTimelineAsset
+    -> WarmupObstacleTimelineDirector
+        -> WarmupActionCuePresenter
+            -> WarmupActionIconSet (Bo1)
 ```
+
+Hệ obstacle timeline hiện icon Jump, Duck, Punch và Mirror Me trước obstacle.
+Icon Dodge Left/Right là tùy chọn và mặc định tắt trên
+`WarmupActionCuePresenter` của `Warmup HUD`.
 
 ## Asset chính
 

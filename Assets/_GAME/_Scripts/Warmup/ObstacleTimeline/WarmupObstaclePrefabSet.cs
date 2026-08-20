@@ -20,6 +20,7 @@ namespace GameYT.Warmup
         [SerializeField] private GameObject[] duckBarrierPrefabs = Array.Empty<GameObject>();
         [SerializeField] private GameObject[] laneBlockerPrefabs = Array.Empty<GameObject>();
         [SerializeField] private GameObject[] bossWallPrefabs = Array.Empty<GameObject>();
+        [SerializeField] private GameObject[] coinPrefabs = Array.Empty<GameObject>();
 
         public string VideoId => videoId;
 
@@ -98,6 +99,8 @@ namespace GameYT.Warmup
                     return laneBlockerPrefabs;
                 case WarmupObstacleType.BossWall:
                     return bossWallPrefabs;
+                case WarmupObstacleType.Coin:
+                    return coinPrefabs;
                 default:
                     return null;
             }
@@ -115,7 +118,8 @@ namespace GameYT.Warmup
             GameObject[] poseWalls,
             GameObject[] duckBarriers,
             GameObject[] laneBlockers,
-            GameObject[] bossWalls)
+            GameObject[] bossWalls,
+            GameObject[] coins = null)
         {
             videoId = string.IsNullOrWhiteSpace(id) ? "Video" : id.Trim();
             jumpPrefabs = jumps ?? Array.Empty<GameObject>();
@@ -123,6 +127,7 @@ namespace GameYT.Warmup
             duckBarrierPrefabs = duckBarriers ?? Array.Empty<GameObject>();
             laneBlockerPrefabs = laneBlockers ?? Array.Empty<GameObject>();
             bossWallPrefabs = bossWalls ?? Array.Empty<GameObject>();
+            coinPrefabs = coins ?? Array.Empty<GameObject>();
             UnityEditor.EditorUtility.SetDirty(this);
         }
 #endif
