@@ -1563,33 +1563,73 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1389220157813445562, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1566134760200827935, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1566134760200827935, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1566134760200827935, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2554479744902166115, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2624433945813722146, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3655884818548530695, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128176198013467916, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4424950855015811913, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5422685549268247357, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5984685587969987409, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
       propertyPath: director
       value: 
       objectReference: {fileID: 1899975221}
+    - target: {fileID: 6260983089566258762, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6481393698003573908, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6481393698003573908, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6806859028414685217, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
       propertyPath: m_Name
       value: Warmup HUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806859028414685217, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6823364222947903795, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7117658092653088048, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
       propertyPath: m_Pivot.x
@@ -1683,6 +1723,18 @@ PrefabInstance:
       propertyPath: arenaWinVfxRoot
       value: 
       objectReference: {fileID: 7399824093184760001}
+    - target: {fileID: 7630628792255743543, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8150109344777592548, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8519430004696803701, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9186941886736398062, guid: 4e8d995c2836e7f418da8886eb92a8e6, type: 3}
       propertyPath: director
       value: 
