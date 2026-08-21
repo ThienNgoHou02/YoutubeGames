@@ -181,6 +181,7 @@ MonoBehaviour:
   jumpClip: {fileID: 0}
   duckClip: {fileID: 0}
   dodgeClip: {fileID: 0}
+  coinPickupClip: {fileID: 0}
   runVolume: 0.7
   actionVolume: 1
   runStepInterval: 0.32
